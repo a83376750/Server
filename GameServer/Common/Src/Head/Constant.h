@@ -13,6 +13,8 @@ enum ERRID
 };
 
 #define PRINTFERRORINFO(ID) printf("Error ID:%d\n",ID)
-//#define USHORT unsigned short
-//#define UCHAR unsigned char
-//#define UINT unsigned int
+
+
+
+
+
