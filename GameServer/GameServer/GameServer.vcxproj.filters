@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="HostProcess">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ServerCpp">
+      <UniqueIdentifier>{d7ef892b-f858-4fd9-988e-abfa21952c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ServerH">
+      <UniqueIdentifier>{eb34c9e5-ad6c-49eb-b2d6-04a6155276ef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\Process\Main.cpp">
+      <Filter>HostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ServerCpp\Server.cpp">
+      <Filter>ServerCpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\ServerH\Server.h">
+      <Filter>ServerH</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
