@@ -1,6 +1,16 @@
 #include "Server.h"
 #include <iostream>
 
+
+
+#ifdef BASESOCKET
+#include <process.h>
+#include <WinSock2.h>
+#pragma comment (lib,"ws2_32.lib")	
+#else
+
+#endif
+
 Server::Server()
 {
 }
@@ -13,6 +23,7 @@ Server::~Server()
 
 unsigned int Server::StartServer()
 {
+#ifdef BASESOCKET
 	WORD usSocketVersion = MAKEWORD(2, 2);
 	WSADATA wsaData;
 	if (WSAStartup(usSocketVersion, &wsaData))
@@ -21,8 +32,8 @@ unsigned int Server::StartServer()
 	}
 
 
-	m_Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (m_Socket == INVALID_SOCKET)
+	SOCKET socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (socket == INVALID_SOCKET)
 	{
 		return CreateSocket_ERR;
 	}
@@ -32,12 +43,12 @@ unsigned int Server::StartServer()
 	inSin.sin_addr.S_un.S_addr = INADDR_ANY;
 	inSin.sin_family = AF_INET;
 
-	if (bind(m_Socket, (sockaddr*)&inSin, sizeof(inSin)) == SOCKET_ERROR)
+	if (bind(socket, (sockaddr*)&inSin, sizeof(inSin)) == SOCKET_ERROR)
 	{
 		return BindSocket_ERR;
 	}
 
-	if (listen(m_Socket, 5) == SOCKET_ERROR)
+	if (listen(socket, 5) == SOCKET_ERROR)
 	{
 		return ListenSocket_ERR;
 	}
@@ -50,7 +61,7 @@ unsigned int Server::StartServer()
 	memset(buffer, 0, sizeof(buffer));
 	while (1)
 	{
-		SOCKET RecvSocket = accept(m_Socket, (sockaddr*)&recvAddr, &AddLen);
+		SOCKET RecvSocket = accept(socket, (sockaddr*)&recvAddr, &AddLen);
 		if (RecvSocket == INVALID_SOCKET)
 		{
 			return AcceptSocket_ERR;
@@ -58,22 +69,18 @@ unsigned int Server::StartServer()
 		using namespace std;
 		cout << "客户端连接::" << inet_ntoa(recvAddr.sin_addr) << ":" << recvAddr.sin_port << endl;
 
-
-// 		int len = recv(recvSocket, buffer, sizeof(buffer), NULL);
-// 		if (len <= 0)
-// 		{
-// 			continue;
-// 		}
-// 		printf("消息：%s\n", buffer);
-
 		_beginthread(SaveBuffer, 0, (LPVOID)RecvSocket);
 
 	}
 
-	closesocket(m_Socket);
+	closesocket(socket);
 	WSACleanup();
+#else
+
+#endif
 	return 0;
 }
+
 
 void Server::RecvBuffer(void *buffer)
 {
@@ -87,6 +94,7 @@ void Server::WriteBuffer(void *buffer, int len)
 
 void SaveBuffer(void *lpParameter)
 {
+#ifdef BASESOCKET
 	SOCKET CientSocket = (SOCKET)lpParameter;
 	int Ret,Err = 0;
 	char RecvBuffer[1024];
@@ -117,5 +125,7 @@ void SaveBuffer(void *lpParameter)
 		cout << "接收到客户信息为:" << RecvBuffer << endl;
 	}
 	closesocket(CientSocket);
+#else
 
+#endif
 }

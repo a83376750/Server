@@ -1,10 +1,7 @@
 #pragma once
 
-#include <WinSock2.h>
 #include "Constant.h"
-#include <process.h>
 
-#pragma comment (lib,"ws2_32.lib")
 
 class Server
 {
@@ -16,7 +13,7 @@ public:
 	void WriteBuffer(void *buffer, int len);
 
 public:
-	SOCKET m_Socket;
+
 };
 
 void SaveBuffer(void *lpParameter);
