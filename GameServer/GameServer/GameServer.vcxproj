@@ -76,7 +76,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>.\Src;.\Src\ServerH;.\Src\ServerCpp;.\Src\Process;$(IncludePath)</IncludePath>
+    <IncludePath>.\Src;.\Src\ServerH;.\Src\ServerCpp;.\Src\Process;..\ThirdLibrary\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThirdLibrary\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -88,6 +89,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libzmq-v120-mt-4_0_4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
