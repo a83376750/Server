@@ -1,6 +1,6 @@
 #include "Server.h"
 #include <iostream>
-
+#include <assert.h>
 
 
 #ifdef BASESOCKET
@@ -8,7 +8,7 @@
 #include <WinSock2.h>
 #pragma comment (lib,"ws2_32.lib")	
 #else
-
+#include "zmq.h"
 #endif
 
 Server::Server()
@@ -76,7 +76,15 @@ unsigned int Server::StartServer()
 	closesocket(socket);
 	WSACleanup();
 #else
+	void *ctx = zmq_ctx_new();
+	assert(ctx);
 
+	void *socket = zmq_socket(ctx, ZMQ_STREAM);
+	assert(socket);
+
+	char buffer[1024] = "tcp://*:8080";
+	zmq_bind(socket, buffer);
+	getchar();
 #endif
 	return 0;
 }
