@@ -5,7 +5,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 #define HOSTADDRESS "127.0.0.1"
-#define HOSTPORT 8888
+#define HOSTPORT 8080
 
 Client::Client()
 {

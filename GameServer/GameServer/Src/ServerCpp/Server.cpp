@@ -11,6 +11,8 @@
 #include "zmq.h"
 #endif
 
+using namespace std;
+
 Server::Server()
 {
 }
@@ -82,11 +84,21 @@ unsigned int Server::StartServer()
 	void *socket = zmq_socket(ctx, ZMQ_STREAM);
 	assert(socket);
 
-	char buffer[1024] = "tcp://*:8080";
-	zmq_bind(socket, buffer);
-	getchar();
+	char address[24] = "tcp://*:8080";
+	int rc = zmq_bind(socket, address);
+	assert(rc == 0);
+
+	void *buffer[NETBUFFER];
+	int bufferLen = sizeof(buffer);
+	while (1)
+	{
+		int nBytes = zmq_recv(socket, buffer, bufferLen, 0);
+		cout << (char *)buffer << endl;
+ 	}
+
+	
 #endif
-	return 0;
+	return Succee_ERR;
 }
 
 

@@ -13,7 +13,7 @@ public:
 	void WriteBuffer(void *buffer, int len);
 
 public:
-
+	CONECTTYPE	NetType;
 };
 
 void SaveBuffer(void *lpParameter);
