@@ -1,11 +1,18 @@
 #include "Client.h"
 #include "Constant.h"
 #include <iostream>
+#include <assert.h>
+
+#ifdef BASESOCKET
 #include <WinSock2.h>
 #pragma comment(lib, "ws2_32.lib")
-
+#else
+#include "zmq.h"
+#endif
 #define HOSTADDRESS "127.0.0.1"
 #define HOSTPORT 8080
+
+using namespace std;
 
 Client::Client()
 {
@@ -19,6 +26,7 @@ Client::~Client()
 
 unsigned int Client::StartClient()
 {
+#ifdef BASESOCKET
 	WSADATA wsaData;
 	using namespace std;
 
@@ -58,5 +66,27 @@ unsigned int Client::StartClient()
 	}
 	closesocket(Socket);
 	WSACleanup();
+#else
+	void *ctx = zmq_ctx_new();
+	assert(ctx);
+
+	void *socket = zmq_socket(ctx, ZMQ_STREAM);
+	assert(socket);
+
+	char address[24] = "tcp://127.0.0.1:8080";
+	int rc = zmq_connect(socket, address);
+	assert(rc == 0);
+
+	unsigned char str[NETBUFFER];
+	while (1)
+	{
+		cin >> str;
+		int nSize = zmq_send(socket, str, sizeof(str), 0);
+		cout << str << endl;
+		cout << "nSize:" << nSize << endl;
+
+	}
+
+#endif
 	return 0;
 }
