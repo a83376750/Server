@@ -11,6 +11,9 @@
     <Filter Include="ServerH">
       <UniqueIdentifier>{eb34c9e5-ad6c-49eb-b2d6-04a6155276ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dispatch">
+      <UniqueIdentifier>{bf0735be-5171-4acb-8298-9ea61365fbae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Process\Main.cpp">
@@ -19,10 +22,16 @@
     <ClCompile Include="Src\ServerCpp\Server.cpp">
       <Filter>ServerCpp</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Dispatch\Dispatch.cpp">
+      <Filter>Dispatch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\ServerH\Server.h">
       <Filter>ServerH</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Dispatch\Dispatch.h">
+      <Filter>Dispatch</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

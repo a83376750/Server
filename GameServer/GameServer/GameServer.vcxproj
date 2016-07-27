@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Dispatch\Dispatch.cpp" />
     <ClCompile Include="Src\Process\Main.cpp" />
     <ClCompile Include="Src\ServerCpp\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Dispatch\Dispatch.h" />
     <ClInclude Include="Src\ServerH\Server.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
