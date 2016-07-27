@@ -15,6 +15,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp" />
   </ItemGroup>
 </Project>

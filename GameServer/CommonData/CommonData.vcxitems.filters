@@ -4,10 +4,21 @@
     <Filter Include="Constant">
       <UniqueIdentifier>{850e21b8-4756-4753-9de4-d5a642916011}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gason">
+      <UniqueIdentifier>{311a650a-16e9-45d7-932d-f1d9e0f2881d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h">
       <Filter>Constant</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.h">
+      <Filter>gason</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp">
+      <Filter>gason</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
