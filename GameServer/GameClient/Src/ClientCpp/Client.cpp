@@ -1,7 +1,9 @@
 #include "Client.h"
 #include "Constant.h"
 #include <iostream>
+#include <string>
 #include <assert.h>
+
 
 #ifdef BASESOCKET
 #include <WinSock2.h>
@@ -13,6 +15,7 @@
 #define HOSTPORT 8080
 
 using namespace std;
+
 
 Client::Client()
 {
@@ -80,6 +83,7 @@ unsigned int Client::StartClient()
 	unsigned char str[NETBUFFER];
 	while (1)
 	{
+		rapidjsonTest();
 		cin >> str;
 		int nSize = zmq_send(socket, str, sizeof(str), 0);
 		cout << str << endl;

@@ -7,6 +7,12 @@
     <Filter Include="gason">
       <UniqueIdentifier>{311a650a-16e9-45d7-932d-f1d9e0f2881d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rapidjson">
+      <UniqueIdentifier>{008849b4-21c3-4dd9-90c1-25f669642544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameJson">
+      <UniqueIdentifier>{c5c0a5be-d5bb-4eb4-baa6-b3bdb61b72ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h">
@@ -15,10 +21,118 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.h">
       <Filter>gason</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\allocators.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\document.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\encodedstream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\encodings.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\error\en.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\error\error.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\filereadstream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\filewritestream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\fwd.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\biginteger.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\diyfp.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\dtoa.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\ieee754.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\itoa.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\meta.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\pow10.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\regex.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\stack.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\strfunc.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\strtod.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\swap.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\istreamwrapper.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\memorybuffer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\memorystream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\msinttypes\inttypes.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\msinttypes\stdint.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\ostreamwrapper.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\pointer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\prettywriter.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\rapidjson.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\reader.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\schema.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\stream.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\stringbuffer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\writer.h">
+      <Filter>rapidjson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp">
       <Filter>gason</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\Json.cpp">
+      <Filter>GameJson</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
