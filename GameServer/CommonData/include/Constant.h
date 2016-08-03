@@ -23,3 +23,16 @@ enum CONECTTYPE
 };
 
 #define NETBUFFER 1024
+
+struct SBaseNature
+{
+	long	HP;
+	long	MP;
+	int		STR;
+};
+
+enum EDispatchType
+{
+	PlayerNature,		//玩家属性
+	Goods,				//商品
+};

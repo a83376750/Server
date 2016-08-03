@@ -16,9 +16,45 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\allocators.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\document.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\encodedstream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\encodings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\error\en.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\error\error.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\filereadstream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\filewritestream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\fwd.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\itoa.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\meta.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\pow10.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\regex.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\stack.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\strtod.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\internal\swap.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\memorybuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\memorystream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\pointer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\prettywriter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\rapidjson.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\reader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\schema.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\stream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\stringbuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\writer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\Json.cpp" />
   </ItemGroup>
 </Project>

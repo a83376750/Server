@@ -7,6 +7,7 @@
 #define  BASESOCKET 1
 
 
+
 #ifdef BASESOCKET
 #include <WinSock2.h>
 #pragma comment(lib, "ws2_32.lib")
@@ -110,6 +111,7 @@ unsigned int Client::StartClient()
 	char str[NETBUFFER];
 	while (1)
 	{
+		rapidjsonTest();
 		cin >> str;
 		int nSize = zmq_send(socket, str, sizeof(str), 0);
 		cout << str << endl;
