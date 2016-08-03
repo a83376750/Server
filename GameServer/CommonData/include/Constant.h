@@ -15,6 +15,7 @@ enum ERRID
 
 #define PRINTFERRORINFO(ID) printf("Error ID:%d\n",ID)
 
+
 enum CONECTTYPE
 {
 	TCP,

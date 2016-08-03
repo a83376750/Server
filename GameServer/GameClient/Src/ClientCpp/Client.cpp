@@ -3,8 +3,16 @@
 #include <iostream>
 #include <string>
 #include <assert.h>
+
+#define  GameC11
+#define  BASESOCKET
+
+
+#ifdef GameC11
+#include <thread>
+#else
 #include <process.h>
-#define  BASESOCKET 1
+#endif
 
 
 
@@ -32,14 +40,14 @@ Client::~Client()
 
 void Client::SendData(void *s)
 {
-	SOCKET socket = (SOCKET)s;
+	SOCKET *socket = (SOCKET*)s;
 	cout << "SendData - Start" << endl;
 
 	char SendBuf[NETBUFFER];
 	while (1)
 	{
 		cin >> SendBuf;
-		if (send(socket, SendBuf, sizeof(SendBuf), 0) == SOCKET_ERROR)
+		if (send(*socket, SendBuf, sizeof(SendBuf), 0) == SOCKET_ERROR)
 		{
 			PRINTFERRORINFO(SendSocket_ERR);
 			continue;
@@ -51,11 +59,11 @@ void Client::SendData(void *s)
 
 void Client::RecvData(void *s)
 {
-	SOCKET socket = (SOCKET)s;
+	SOCKET *socket = (SOCKET*)s;
 	cout << "RecvData - Start" << endl;
 	char RecvBuf[NETBUFFER];
 	memset(RecvBuf, 0, NETBUFFER);
-	int nSize = recv(socket, RecvBuf, NETBUFFER, 0);
+	int nSize = recv(*socket, RecvBuf, NETBUFFER, 0);
 	cout << "Buffer:" << RecvBuf << endl;
 	cout << "RecvData - End" << endl;
 }
@@ -88,7 +96,14 @@ unsigned int Client::StartClient()
 	{
 		return ConnectSocket_ERR;
 	}
-	_beginthread(SendData, 0, (void*)(Socket));
+
+#ifdef GameC11
+	thread t1(SendData,&Socket);
+	t1.join();
+#else
+	_beginthread(SendData, 0, (void*)(&Socket));
+#endif // DEBUG
+
 	while (1)
 	{
 		cout << "主线程运行中...." << endl;
