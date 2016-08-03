@@ -1,7 +1,11 @@
 #include "Client.h"
 #include "Constant.h"
 #include <iostream>
+#include <string>
 #include <assert.h>
+#include <process.h>
+#define  BASESOCKET 1
+
 
 #ifdef BASESOCKET
 #include <WinSock2.h>
@@ -14,6 +18,7 @@
 
 using namespace std;
 
+
 Client::Client()
 {
 
@@ -22,6 +27,36 @@ Client::Client()
 Client::~Client()
 {
 
+}
+
+void Client::SendData(void *s)
+{
+	SOCKET socket = (SOCKET)s;
+	cout << "SendData - Start" << endl;
+
+	char SendBuf[NETBUFFER];
+	while (1)
+	{
+		cin >> SendBuf;
+		if (send(socket, SendBuf, sizeof(SendBuf), 0) == SOCKET_ERROR)
+		{
+			PRINTFERRORINFO(SendSocket_ERR);
+			continue;
+		}
+		printf("发送消息:%s\n", SendBuf);
+	}
+	cout << "SendData - End" << endl;
+}
+
+void Client::RecvData(void *s)
+{
+	SOCKET socket = (SOCKET)s;
+	cout << "RecvData - Start" << endl;
+	char RecvBuf[NETBUFFER];
+	memset(RecvBuf, 0, NETBUFFER);
+	int nSize = recv(socket, RecvBuf, NETBUFFER, 0);
+	cout << "Buffer:" << RecvBuf << endl;
+	cout << "RecvData - End" << endl;
 }
 
 unsigned int Client::StartClient()
@@ -52,17 +87,11 @@ unsigned int Client::StartClient()
 	{
 		return ConnectSocket_ERR;
 	}
-
-	char SendBuf[1024];
+	_beginthread(SendData, 0, (void*)(Socket));
 	while (1)
 	{
-		cin >> SendBuf;
-		if (send(Socket, SendBuf, sizeof(SendBuf), 0) == SOCKET_ERROR)
-		{
-			PRINTFERRORINFO( SendSocket_ERR );
-			continue;
-		}
-		printf("发送消息:%s\n", SendBuf);
+		cout << "主线程运行中...." << endl;
+		Sleep(1000);
 	}
 	closesocket(Socket);
 	WSACleanup();
@@ -70,21 +99,22 @@ unsigned int Client::StartClient()
 	void *ctx = zmq_ctx_new();
 	assert(ctx);
 
+	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
 	void *socket = zmq_socket(ctx, ZMQ_STREAM);
 	assert(socket);
 
-	char address[24] = "tcp://127.0.0.1:8080";
+	char address[24] = "tcp://localhost:8080";
 	int rc = zmq_connect(socket, address);
 	assert(rc == 0);
 
-	unsigned char str[NETBUFFER];
+	char str[NETBUFFER];
 	while (1)
 	{
 		cin >> str;
 		int nSize = zmq_send(socket, str, sizeof(str), 0);
 		cout << str << endl;
 		cout << "nSize:" << nSize << endl;
-
+		memset(str, 0, NETBUFFER);
 	}
 
 #endif

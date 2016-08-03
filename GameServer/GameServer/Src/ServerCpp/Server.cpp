@@ -25,6 +25,7 @@ Server::~Server()
 
 unsigned int Server::StartServer()
 {
+	cout << "ServerStart......." << endl;
 #ifdef BASESOCKET
 	WORD usSocketVersion = MAKEWORD(2, 2);
 	WSADATA wsaData;
@@ -81,8 +82,15 @@ unsigned int Server::StartServer()
 	void *ctx = zmq_ctx_new();
 	assert(ctx);
 
+	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
 	void *socket = zmq_socket(ctx, ZMQ_STREAM);
 	assert(socket);
+
+	// 	int64_t affinity = 1;
+	// 	int rc = zmq_setsockopt(socket, ZMQ_IDENTITY, &affinity, sizeof(affinity));
+
+	// 	assert(rc);
+
 
 	char address[24] = "tcp://*:8080";
 	int rc = zmq_bind(socket, address);
@@ -92,12 +100,14 @@ unsigned int Server::StartServer()
 	int bufferLen = sizeof(buffer);
 	while (1)
 	{
+		cout << "Start recv....." << endl;
 		int nBytes = zmq_recv(socket, buffer, bufferLen, 0);
 		cout << (char *)buffer << endl;
- 	}
+	}
 
-	
+
 #endif
+
 	return Succee_ERR;
 }
 
@@ -116,13 +126,13 @@ void SaveBuffer(void *lpParameter)
 {
 #ifdef BASESOCKET
 	SOCKET CientSocket = (SOCKET)lpParameter;
-	int Ret,Err = 0;
+	int Ret, Err = 0;
 	char RecvBuffer[1024];
-	
+
 	using namespace std;
 	while (true)
 	{
-	    memset(RecvBuffer, 0, sizeof(RecvBuffer));
+		memset(RecvBuffer, 0, sizeof(RecvBuffer));
 		Ret = recv(CientSocket, RecvBuffer, sizeof(RecvBuffer), 0);
 		if (Ret == SOCKET_ERROR)
 		{
