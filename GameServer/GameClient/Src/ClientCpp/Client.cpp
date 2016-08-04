@@ -100,9 +100,11 @@ unsigned int Client::StartClient()
 #ifdef GameC11
 	thread t1(SendData,&Socket);
 	t1.join();
+	thread::id nID = t1.get_id();
+	
 #else
 	_beginthread(SendData, 0, (void*)(&Socket));
-#endif // DEBUG
+#endif
 
 	while (1)
 	{

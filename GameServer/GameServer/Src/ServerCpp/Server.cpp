@@ -1,7 +1,9 @@
 #include "Server.h"
 #include <iostream>
 #include <assert.h>
+#include "ThreadPoor.h"
 
+#define GameC11 1
 
 #ifdef BASESOCKET
 #include <process.h>
