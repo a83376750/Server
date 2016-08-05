@@ -14,6 +14,9 @@
     <Filter Include="Dispatch">
       <UniqueIdentifier>{bf0735be-5171-4acb-8298-9ea61365fbae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThreadPoor">
+      <UniqueIdentifier>{381b4c01-6631-4b94-adfc-200427945664}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Process\Main.cpp">
@@ -25,6 +28,9 @@
     <ClCompile Include="Src\Dispatch\Dispatch.cpp">
       <Filter>Dispatch</Filter>
     </ClCompile>
+    <ClCompile Include="Src\ThreadPoor.cpp">
+      <Filter>ThreadPoor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\ServerH\Server.h">
@@ -32,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="Src\Dispatch\Dispatch.h">
       <Filter>Dispatch</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\ThreadPoor.h">
+      <Filter>ThreadPoor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
