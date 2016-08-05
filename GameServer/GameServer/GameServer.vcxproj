@@ -30,11 +30,13 @@
     <ClCompile Include="Src\Dispatch\Dispatch.cpp" />
     <ClCompile Include="Src\Process\Main.cpp" />
     <ClCompile Include="Src\ServerCpp\Server.cpp" />
+    <ClCompile Include="Src\TaskManager.cpp" />
     <ClCompile Include="Src\ThreadPoor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Dispatch\Dispatch.h" />
     <ClInclude Include="Src\ServerH\Server.h" />
+    <ClInclude Include="Src\TaskManager.h" />
     <ClInclude Include="Src\ThreadPoor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

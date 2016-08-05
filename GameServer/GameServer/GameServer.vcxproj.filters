@@ -31,6 +31,9 @@
     <ClCompile Include="Src\ThreadPoor.cpp">
       <Filter>ThreadPoor</Filter>
     </ClCompile>
+    <ClCompile Include="Src\TaskManager.cpp">
+      <Filter>HostProcess</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\ServerH\Server.h">
@@ -42,5 +45,6 @@
     <ClInclude Include="Src\ThreadPoor.h">
       <Filter>ThreadPoor</Filter>
     </ClInclude>
+    <ClInclude Include="Src\TaskManager.h" />
   </ItemGroup>
 </Project>
