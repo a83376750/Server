@@ -28,6 +28,18 @@ int main()
 			pTask->StartTask();
 			delete pTask;
 		}
+		else if (StopFlag == 3)
+		{
+			poor->m_cv.notify_one();
+		}
+		else if (StopFlag == 4)
+		{
+			poor->m_cv.notify_all();
+		}
+		else if (StopFlag == 5)
+		{
+			std::cout << "最大线程数:" << std::thread::hardware_concurrency() << std::endl;
+		}
 	}
 
 	Server *StartServer = new Server();

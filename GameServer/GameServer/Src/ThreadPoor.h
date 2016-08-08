@@ -40,6 +40,8 @@ private:
 	std::vector<std::thread> m_vecThread;
 	TaskManager *taskMag;
 	std::mutex m_mutex;
+public:
 	std::condition_variable m_cv;
+
 };
 
