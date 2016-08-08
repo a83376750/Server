@@ -45,6 +45,8 @@
     <ClInclude Include="Src\ThreadPoor.h">
       <Filter>ThreadPoor</Filter>
     </ClInclude>
-    <ClInclude Include="Src\TaskManager.h" />
+    <ClInclude Include="Src\TaskManager.h">
+      <Filter>HostProcess</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
