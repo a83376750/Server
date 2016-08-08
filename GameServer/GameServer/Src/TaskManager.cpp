@@ -23,7 +23,7 @@ TaskManager::~TaskManager()
 
 void TaskManager::pushTask(ServerTask *task)
 {
-	if (!task)
+	if (task)
 		listTask.push_back(task);
 }
 
@@ -49,6 +49,16 @@ int TaskManager::GetTastCount() const
 	return listTask.size();
 }
 
+ServerTask::ServerTask()
+{
+
+}
+
+ServerTask::~ServerTask()
+{
+
+}
+
 /************************************************************************/
 /* ServerManager                                                        */
 /************************************************************************/
@@ -57,6 +67,16 @@ void ServerTask::StartTask()
 	std::cout << "Default Task Output!!!!" << std::endl;
 }
 
+
+CharTask::CharTask()
+{
+	testNum = 0;
+}
+
+CharTask::~CharTask()
+{
+
+}
 
 /************************************************************************/
 /* CharTask                                                             */

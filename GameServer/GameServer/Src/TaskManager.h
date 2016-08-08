@@ -40,7 +40,8 @@ public:
 class CharTask : public ServerTask
 {
 public:
-	virtual ~CharTask() override;
+	CharTask();
+	virtual ~CharTask();
 	virtual void StartTask();
 
 	void setNum();
