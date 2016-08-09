@@ -2,28 +2,26 @@
 
 ThreadPoor::ThreadPoor()
 {
-	taskMag = new TaskManager();
 	InitPoor();
 }
 
 
 ThreadPoor::~ThreadPoor()
 {
-	int thCount = MAXTHREADCOUNT;
-	for (std::thread &thr : m_vecThread)
-	{
-		thr.detach();
-		thCount--;
-	}
-	std::cout << "线程数:" << thCount << std::endl;
-
+	std::cout << "线程数:" << m_nThreadCount << std::endl;
 	delete taskMag;
 }
 
 void ThreadPoor::InitPoor()
 {
+	taskMag = new TaskManager();
+	m_nThreadCount = 0;
 	for (int i = 0; i < MAXTHREADCOUNT; ++i)
+	{
 		m_vecThread.emplace_back(&ThreadPoor::TaskPolling, this);
+		m_nThreadCount++;
+	}
+	m_flag = ThreadFlag::RUNNING;
 }
 
 void ThreadPoor::TaskPolling()
@@ -32,7 +30,7 @@ void ThreadPoor::TaskPolling()
 	while (1)
 	{
 		std::cout << "当前线程号:" << std::this_thread::get_id() << std::endl;
-		pTask = taskMag->popTask();
+		pTask = popTask();
 		if (pTask)
 		{
 			pTask->StartTask();
@@ -43,6 +41,7 @@ void ThreadPoor::TaskPolling()
 			std::this_thread::sleep_for(std::chrono::seconds(5));
 		}
 	}
+	
 }
 
 bool ThreadPoor::Lock()

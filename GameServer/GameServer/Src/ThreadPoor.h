@@ -40,6 +40,12 @@ private:
 	std::vector<std::thread> m_vecThread;
 	TaskManager *taskMag;
 	std::mutex m_mutex;
+
+	//标志线程状态,主线程决定是否退出,让子线程关闭
+	enum ThreadFlag{ RUNNING, END };
+	ThreadFlag m_flag;
+
+	unsigned int m_nThreadCount;
 public:
 	std::condition_variable m_cv;
 
