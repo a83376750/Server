@@ -9,6 +9,8 @@ ThreadPoor::ThreadPoor()
 ThreadPoor::~ThreadPoor()
 {
 	std::cout << "线程数:" << m_nThreadCount << std::endl;
+	while(!m_nThreadCount)
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	delete taskMag;
 }
 
@@ -29,7 +31,6 @@ void ThreadPoor::TaskPolling()
 	ServerTask *pTask = nullptr;
 	while (CheckCurentlyFlag() == RUNNING)
 	{
-		
 		std::cout << "当前线程号:" << std::this_thread::get_id() << std::endl;
 		pTask = popTask();
 		if (pTask)
@@ -49,7 +50,8 @@ void ThreadPoor::TaskPolling()
 
 bool ThreadPoor::Lock()
 {
-	return m_mutex.try_lock();
+	while (!m_mutex.try_lock());
+	return true;
 }
 
 void ThreadPoor::UnLock()
