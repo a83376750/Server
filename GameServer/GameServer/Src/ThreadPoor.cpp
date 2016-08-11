@@ -1,7 +1,9 @@
 #include "ThreadPoor.h"
+#include <assert.h>
 
 ThreadPoor::ThreadPoor()
 {
+	std::cout << "线程池开启" << std::endl;
 	InitPoor();
 }
 
@@ -9,38 +11,50 @@ ThreadPoor::ThreadPoor()
 ThreadPoor::~ThreadPoor()
 {
 	std::cout << "线程数:" << m_nThreadCount << std::endl;
-	while(!m_nThreadCount)
+	m_flag = ThreadFlag::END;
+	NotifyAllThread();
+	while (m_nThreadCount)
+	{
 		std::this_thread::sleep_for(std::chrono::seconds(1));
-	delete taskMag;
+		std::cout << "主线程等待子线程结束!" << std::endl;
+		std::cout << "当前还有线程数:" << m_nThreadCount << std::endl;
+	}
+	std::cout << "线程池关闭" << std::endl;
 }
 
 void ThreadPoor::InitPoor()
 {
-	taskMag = new TaskManager();
+#ifdef DEBUG
+	assert(std::thread::hardware_concurrency() < MAXTHREADCOUNT);
+#endif // DEBUG
+	m_flag = ThreadFlag::RUNNING;
 	m_nThreadCount = 0;
 	for (int i = 0; i < MAXTHREADCOUNT; ++i)
 	{
 		m_vecThread.emplace_back(&ThreadPoor::TaskPolling, this);
 		m_nThreadCount++;
 	}
-	m_flag = ThreadFlag::RUNNING;
 }
 
+//子线程入口
 void ThreadPoor::TaskPolling()
 {
 	ServerTask *pTask = nullptr;
 	while (CheckCurentlyFlag() == RUNNING)
 	{
-		std::cout << "当前线程号:" << std::this_thread::get_id() << std::endl;
+		std::cout << "线程号:" << std::this_thread::get_id()<< "---";
 		pTask = popTask();
 		if (pTask)
 		{
+			std::cout << "线程执行任务中" << std::endl;
 			pTask->StartTask();
 		}
 		else
 		{
-			std::cout << "睡眠一下" << std::endl;
-			std::this_thread::sleep_for(std::chrono::seconds(5));
+			std::cout << "线程睡眠" << std::endl;
+			std::unique_lock<std::mutex> lock(m_mutex);
+			m_cv.wait(lock, [&]() { return taskMag.GetTastCount() || CheckCurentlyFlag() ?true:false; } );
+// 			std::this_thread::sleep_for(std::chrono::seconds(2));
 		}
 	}
 	Lock();
@@ -59,17 +73,16 @@ void ThreadPoor::UnLock()
 	m_mutex.unlock();
 }
 
+//主线程执行,不需要锁
 void ThreadPoor::pushTask(ServerTask *task)
 {
-	Lock();
-	taskMag->pushTask(task);
-	UnLock();
+	taskMag.pushTask(task);
 }
 
 ServerTask* ThreadPoor::popTask()
 {
 	Lock();
-	ServerTask *pTask = taskMag->popTask();
+	ServerTask *pTask = taskMag.popTask();
 	UnLock();
 	return pTask;
 }
@@ -77,4 +90,9 @@ ServerTask* ThreadPoor::popTask()
 const ThreadPoor::ThreadFlag& ThreadPoor::CheckCurentlyFlag()
 {
 	return m_flag;
+}
+
+void ThreadPoor::NotifyAllThread()
+{
+	m_cv.notify_all();
 }

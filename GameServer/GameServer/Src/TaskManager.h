@@ -17,8 +17,8 @@ public:
 
 	int GetTastCount()const;
 private:
+	//先进先出
 	std::list<ServerTask*> listTask;
-	
 };
 
 
