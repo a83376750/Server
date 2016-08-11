@@ -15,7 +15,7 @@ int main()
 			std::cin >> StopFlag;
 			if (StopFlag == 0)
 			{
-				return 0;
+				break;
 			}
 			else if (StopFlag == 1)
 			{
@@ -44,7 +44,7 @@ int main()
 		std::cout << "Ïß³ÌÒì³£:" << e.what() << std::endl;
 	}
 
-	Server *StartServer = new Server();
-	StartServer->StartServer();
+// 	Server *StartServer = new Server();
+// 	StartServer->StartServer();
 	return 0;
 }

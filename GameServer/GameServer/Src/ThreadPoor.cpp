@@ -31,7 +31,9 @@ void ThreadPoor::InitPoor()
 	m_nThreadCount = 0;
 	for (int i = 0; i < MAXTHREADCOUNT; ++i)
 	{
-		m_vecThread.emplace_back(&ThreadPoor::TaskPolling, this);
+		std::thread th(&ThreadPoor::TaskPolling, this);
+		th.detach();
+		m_vecThread.push_back(std::move(th));	//减少vector的对象复制
 		m_nThreadCount++;
 	}
 }
@@ -53,13 +55,15 @@ void ThreadPoor::TaskPolling()
 		{
 			std::cout << "线程睡眠" << std::endl;
 			std::unique_lock<std::mutex> lock(m_mutex);
-			m_cv.wait(lock, [&]() { return taskMag.GetTastCount() || CheckCurentlyFlag() ?true:false; } );
+			m_cv.wait(lock, [&]() { return taskMag.GetTastCount() || CheckCurentlyFlag() ? true:false; } );
 // 			std::this_thread::sleep_for(std::chrono::seconds(2));
 		}
 	}
 	Lock();
 	m_nThreadCount--;
 	UnLock();
+	std::cout<< "线程号:" << std::this_thread::get_id() << "---" << "该线程关闭"<< std::endl;
+	return;
 }
 
 bool ThreadPoor::Lock()
@@ -77,6 +81,8 @@ void ThreadPoor::UnLock()
 void ThreadPoor::pushTask(ServerTask *task)
 {
 	taskMag.pushTask(task);
+	if(taskMag.GetTastCount())
+		NotifyAllThread();
 }
 
 ServerTask* ThreadPoor::popTask()
