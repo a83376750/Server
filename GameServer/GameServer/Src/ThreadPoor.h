@@ -39,7 +39,7 @@ public:
 	void UnLock();
 
 	//压入,弹出任务
-	void pushTask(ServerTask *task);
+	void pushTask(ServerTask *task, bool AtOnceRun = true);
 	ServerTask* popTask();
 
 	//检查退出标志

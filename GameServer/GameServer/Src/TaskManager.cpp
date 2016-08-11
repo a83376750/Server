@@ -1,4 +1,5 @@
 #include "TaskManager.h"
+#include "Server.h"
 
 /************************************************************************/
 /* TaskManager                                                          */
@@ -49,6 +50,9 @@ int TaskManager::GetTastCount() const
 	return listTask.size();
 }
 
+/************************************************************************/
+/* ServerTask															*/
+/************************************************************************/
 ServerTask::ServerTask()
 {
 
@@ -59,15 +63,15 @@ ServerTask::~ServerTask()
 
 }
 
-/************************************************************************/
-/* ServerManager                                                        */
-/************************************************************************/
+
 void ServerTask::StartTask()
 {
 	std::cout << "Default Task Output!!!!" << std::endl;
 }
 
-
+/************************************************************************/
+/* CharTask                                                             */
+/************************************************************************/
 CharTask::CharTask()
 {
 	testNum = 0;
@@ -78,9 +82,7 @@ CharTask::~CharTask()
 
 }
 
-/************************************************************************/
-/* CharTask                                                             */
-/************************************************************************/
+
 void CharTask::StartTask()
 {
 	std::cout << "BeforeNum:" << testNum << std::endl;
@@ -92,3 +94,21 @@ void CharTask::setNum()
 	testNum = rand()%100;
 	std::cout << "SetNum log:" << testNum << std::endl;
 }
+
+/************************************************************************/
+/* RecvSendTask                                                           */
+/************************************************************************/
+RecvSendTask::RecvSendTask(Server *ptrServer):m_pServer(ptrServer)
+{
+
+}
+
+RecvSendTask::~RecvSendTask()
+{
+}
+
+void RecvSendTask::StartTask()
+{
+
+}
+

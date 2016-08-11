@@ -27,6 +27,7 @@ void ThreadPoor::InitPoor()
 #ifdef DEBUG
 	assert(std::thread::hardware_concurrency() < MAXTHREADCOUNT);
 #endif // DEBUG
+
 	m_flag = ThreadFlag::RUNNING;
 	m_nThreadCount = 0;
 	for (int i = 0; i < MAXTHREADCOUNT; ++i)
@@ -78,10 +79,10 @@ void ThreadPoor::UnLock()
 }
 
 //主线程执行,不需要锁
-void ThreadPoor::pushTask(ServerTask *task)
+void ThreadPoor::pushTask(ServerTask *task, bool AtOnceRun)
 {
 	taskMag.pushTask(task);
-	if(taskMag.GetTastCount())
+	if(taskMag.GetTastCount() && AtOnceRun)
 		NotifyAllThread();
 }
 

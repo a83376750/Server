@@ -15,6 +15,8 @@
 
 using namespace std;
 
+Server *Server::m_server = nullptr;
+
 Server::Server()
 {
 }
@@ -24,6 +26,14 @@ Server::~Server()
 
 }
 
+
+Server* Server::Instance()
+{
+	if (m_server)
+		return m_server;
+	else
+		return new Server();
+}
 
 unsigned int Server::StartServer()
 {

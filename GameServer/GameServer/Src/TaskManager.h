@@ -6,6 +6,8 @@
 /* TaskManager                                                          */
 /************************************************************************/
 class ServerTask;
+class Server;
+
 class TaskManager
 {
 public:
@@ -47,4 +49,18 @@ public:
 	void setNum();
 private:
 	int testNum;
+};
+
+/************************************************************************/
+/* RecvSendTask                                                           */
+/************************************************************************/
+class RecvSendTask : public ServerTask
+{
+public:
+	RecvSendTask(Server *ptrServer);
+	virtual ~RecvSendTask();
+	virtual void StartTask();
+
+private:
+	Server *m_pServer;
 };
