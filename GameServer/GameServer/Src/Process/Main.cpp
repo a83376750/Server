@@ -1,21 +1,71 @@
 #include "Server.h"
 #include "ThreadPoor.h"
 
-int main()
+void StartServer()
+{
+	Server *server = Server::Instance();
+	server->StartServer();
+	std::shared_ptr<ThreadPoor> poor = std::make_shared<ThreadPoor>();
+	poor->pushTask(new RecvSendTask(server));
+	while (1)
+	{
+		std::cout << "服务器线程已启动" << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}
+
+void CloseServer()
 {
 	try
 	{
-		std::shared_ptr<ThreadPoor> poor = std::make_shared<ThreadPoor>();
 		Server *server = Server::Instance();
-		poor->pushTask(new RecvSendTask(server));
-
 		delete server;
 	}
 	catch (std::exception& e)
 	{
-		std::cout << "服务器异常:" << e.what() << std::endl;
 	}
+}
 
+void DisplayMenu()
+{
+	while (true)
+	{
+		std::cout << "*****************************************************" << std::endl;
+		std::cout << "*****************************************************" << std::endl;
+		std::cout << "*****************************************************" << std::endl;
+
+		std::cout << "1.启动服务器" << std::endl;
+		std::cout << "2.关闭服务器" << std::endl;
+
+		std::cout << "*****************************************************" << std::endl;
+		std::cout << "*****************************************************" << std::endl;
+		std::cout << "*****************************************************" << std::endl;
+		int key;
+		std::cin >> key;
+
+		switch (key)
+		{
+			case 1:
+			{
+				StartServer();
+				break;
+			}
+			case 2:
+			{
+				CloseServer();
+				break;
+			}
+			default:
+			{
+				std::cout << "请输入其他值" << std::endl;
+			}
+		}
+	}
+}
+
+int main()
+{
+	DisplayMenu();
 	
 	return 0;
 }

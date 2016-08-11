@@ -23,7 +23,6 @@ Server::Server()
 
 Server::~Server()
 {
-
 }
 
 
@@ -91,12 +90,12 @@ unsigned int Server::StartServer()
 	closesocket(socket);
 	WSACleanup();
 #else
-	void *ctx = zmq_ctx_new();
-	assert(ctx);
+	m_ctx = zmq_ctx_new();
+	assert(m_ctx);
 
 	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
-	void *socket = zmq_socket(ctx, ZMQ_STREAM);
-	assert(socket);
+	m_socket = zmq_socket(m_ctx, ZMQ_STREAM);
+	assert(m_socket);
 
 	// 	int64_t affinity = 1;
 	// 	int rc = zmq_setsockopt(socket, ZMQ_IDENTITY, &affinity, sizeof(affinity));
@@ -105,17 +104,17 @@ unsigned int Server::StartServer()
 
 
 	char address[24] = "tcp://*:8080";
-	int rc = zmq_bind(socket, address);
+	int rc = zmq_bind(m_socket, address);
 	assert(rc == 0);
 
-	void *buffer[NETBUFFER];
-	int bufferLen = sizeof(buffer);
-	while (1)
-	{
-		cout << "Start recv....." << endl;
-		int nBytes = zmq_recv(socket, buffer, bufferLen, 0);
-		cout << (char *)buffer << endl;
-	}
+// 	void *buffer[NETBUFFER];
+// 	int bufferLen = sizeof(buffer);
+// 	while (1)
+// 	{
+// 		cout << "Start recv....." << endl;
+// 		int nBytes = zmq_recv(m_socket, buffer, bufferLen, 0);
+// 		cout << (char *)buffer << endl;
+// 	}
 
 
 #endif
@@ -126,12 +125,16 @@ unsigned int Server::StartServer()
 
 void Server::RecvBuffer(void *buffer)
 {
-	printf("recv\n");
+	int nBytes = zmq_recv(m_socket, buffer, NETBUFFER, 0);
+	cout << (char*)buffer << endl;
+	cout << "字节数:" << nBytes << endl;
 }
 
 void Server::WriteBuffer(void *buffer, int len)
 {
-
+	int nBytes = zmq_send(m_socket, buffer, len, 0);
+	cout << (char*)buffer << endl;
+	cout << "字节数:" << nBytes << endl;
 }
 
 void SaveBuffer(void *lpParameter)

@@ -44,8 +44,7 @@ class CharTask : public ServerTask
 public:
 	CharTask();
 	virtual ~CharTask();
-	virtual void StartTask();
-
+	virtual void StartTask() override;
 	void setNum();
 private:
 	int testNum;

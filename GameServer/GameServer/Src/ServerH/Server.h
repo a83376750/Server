@@ -16,6 +16,12 @@ public:
 public:
 	static Server *m_server;
 	CONECTTYPE	NetType;
+public:
+#ifdef BASESOCKET
+#else
+	void *m_ctx;
+	void *m_socket;
+#endif
 };
 
 void SaveBuffer(void *lpParameter);

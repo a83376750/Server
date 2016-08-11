@@ -55,7 +55,7 @@ int TaskManager::GetTastCount() const
 /************************************************************************/
 ServerTask::ServerTask()
 {
-
+	
 }
 
 ServerTask::~ServerTask()
@@ -98,7 +98,8 @@ void CharTask::setNum()
 /************************************************************************/
 /* RecvSendTask                                                           */
 /************************************************************************/
-RecvSendTask::RecvSendTask(Server *ptrServer):m_pServer(ptrServer)
+RecvSendTask::RecvSendTask(Server *ptrServer)
+	:m_pServer(ptrServer)
 {
 
 }
@@ -109,6 +110,10 @@ RecvSendTask::~RecvSendTask()
 
 void RecvSendTask::StartTask()
 {
-
+	unsigned char buffer[NETBUFFER];
+	while (m_pServer)
+	{
+		m_pServer->RecvBuffer(buffer);
+	}
 }
 
