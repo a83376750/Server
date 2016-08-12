@@ -13,7 +13,6 @@
 #include "zmq.h"
 #endif
 
-using namespace std;
 
 Server *Server::m_server = nullptr;
 
@@ -36,7 +35,7 @@ Server* Server::Instance()
 
 unsigned int Server::StartServer()
 {
-	cout << "ServerStart......." << endl;
+	std::cout << "ServerStart......." << std::endl;
 #ifdef BASESOCKET
 	WORD usSocketVersion = MAKEWORD(2, 2);
 	WSADATA wsaData;
@@ -126,15 +125,16 @@ unsigned int Server::StartServer()
 void Server::RecvBuffer(void *buffer)
 {
 	int nBytes = zmq_recv(m_socket, buffer, NETBUFFER, 0);
-	cout << (char*)buffer << endl;
-	cout << "字节数:" << nBytes << endl;
+	std::cout << "线程号:" << std::this_thread::get_id() << "---";
+	std::cout << (char*)buffer << std::endl;
+	std::cout << "字节数:" << nBytes << std::endl;
 }
 
 void Server::WriteBuffer(void *buffer, int len)
 {
 	int nBytes = zmq_send(m_socket, buffer, len, 0);
-	cout << (char*)buffer << endl;
-	cout << "字节数:" << nBytes << endl;
+	std::cout << (char*)buffer << std::endl;
+	std::cout << "字节数:" << nBytes << std::endl;
 }
 
 void SaveBuffer(void *lpParameter)

@@ -1,5 +1,4 @@
 #include "Client.h"
-#include "Constant.h"
 #include <iostream>
 #include <string>
 #include <assert.h>

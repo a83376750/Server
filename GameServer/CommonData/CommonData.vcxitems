@@ -52,9 +52,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\stringbuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\writer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\Json.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\KeepAlive.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)include\Json.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\KeepAlive.cpp" />
   </ItemGroup>
 </Project>

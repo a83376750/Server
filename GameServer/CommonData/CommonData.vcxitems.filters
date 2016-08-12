@@ -13,6 +13,9 @@
     <Filter Include="GameJson">
       <UniqueIdentifier>{c5c0a5be-d5bb-4eb4-baa6-b3bdb61b72ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Heartbeat Package">
+      <UniqueIdentifier>{038b96ef-5621-46cb-b06d-224df72d06ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h">
@@ -126,10 +129,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\writer.h">
       <Filter>rapidjson</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\KeepAlive.h">
+      <Filter>Heartbeat Package</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\Json.h">
+      <Filter>GameJson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp">
       <Filter>gason</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\KeepAlive.cpp">
+      <Filter>Heartbeat Package</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)include\Json.cpp">
       <Filter>GameJson</Filter>

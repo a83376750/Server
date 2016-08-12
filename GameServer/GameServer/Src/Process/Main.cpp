@@ -28,7 +28,8 @@ void CloseServer()
 
 void DisplayMenu()
 {
-	while (true)
+	bool bStart = true;
+	while (bStart)
 	{
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "*****************************************************" << std::endl;
@@ -53,6 +54,7 @@ void DisplayMenu()
 			case 2:
 			{
 				CloseServer();
+				bStart = false;
 				break;
 			}
 			default:

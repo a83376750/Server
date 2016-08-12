@@ -1,4 +1,5 @@
 #pragma once
+#include "Constant.h"
 
 class Client
 {
@@ -11,4 +12,6 @@ public:
 
 	unsigned int StartClient();
 
+private:
+	//KeepAlive kAlive;
 };

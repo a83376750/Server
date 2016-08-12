@@ -1,11 +1,13 @@
 #include "Client.h"
-#include "Constant.h"
-
+#include "Json.h"
 
 int main(int argc, char * argv[])
 {
-// 	if (__cplusplus < 201103L)
-// 		return -1;
+#if DEBUG
+	if (__cplusplus < 201103L)
+		return -1;
+#endif
+
 	Client *StartClient = new Client();
 	StartClient->StartClient();
 
