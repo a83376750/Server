@@ -8,8 +8,8 @@ int main(int argc, char * argv[])
 		return -1;
 #endif
 
-// 	Client *StartClient = new Client();
-// 	StartClient->StartClient();
+	Client *StartClient = new Client();
+	StartClient->StartClient();
 
 	return 0;
 }

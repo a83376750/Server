@@ -6,10 +6,10 @@ class Client
 public:
 	Client();
 	~Client();
-
-	static void SendData(void *s);
-	static void RecvData(void *s);
-
+#ifdef BASESOCKET
+	void SendData(void *s);
+	void RecvData(void *s);
+#endif
 	unsigned int StartClient();
 
 private:

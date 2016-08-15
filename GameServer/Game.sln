@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{2270799E-A2E1-4D7B-9595-41DC584E1B0C}"
 EndProject
@@ -11,9 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonData", "CommonData\Co
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		CommonData\CommonData.vcxitems*{93f851b9-cf98-4b3b-ad9f-fda6d02fdc3f}*SharedItemsImports = 4
 		CommonData\CommonData.vcxitems*{2270799e-a2e1-4d7b-9595-41dc584e1b0c}*SharedItemsImports = 4
 		CommonData\CommonData.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
+		CommonData\CommonData.vcxitems*{93f851b9-cf98-4b3b-ad9f-fda6d02fdc3f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CommonData|Mixed Platforms = CommonData|Mixed Platforms
