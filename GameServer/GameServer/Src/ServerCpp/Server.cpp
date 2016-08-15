@@ -93,7 +93,7 @@ unsigned int Server::StartServer()
 	assert(m_ctx);
 
 	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
-	m_socket = zmq_socket(m_ctx, ZMQ_STREAM);
+	m_socket = zmq_socket(m_ctx, ZMQ_XREP);
 	assert(m_socket);
 
 	// 	int64_t affinity = 1;

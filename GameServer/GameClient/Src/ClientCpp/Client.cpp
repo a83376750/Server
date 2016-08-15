@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #define  GameC11
-#define  BASESOCKET
+//#define  BASESOCKET
 
 
 #ifdef GameC11
@@ -37,6 +37,7 @@ Client::~Client()
 
 }
 
+#ifdef BASESOCKET
 void Client::SendData(void *s)
 {
 	SOCKET *socket = (SOCKET*)s;
@@ -66,6 +67,7 @@ void Client::RecvData(void *s)
 	cout << "Buffer:" << RecvBuf << endl;
 	cout << "RecvData - End" << endl;
 }
+#endif
 
 unsigned int Client::StartClient()
 {
@@ -116,20 +118,29 @@ unsigned int Client::StartClient()
 	void *ctx = zmq_ctx_new();
 	assert(ctx);
 
+	int rc;
+
 	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
-	void *socket = zmq_socket(ctx, ZMQ_STREAM);
+	void *socket = zmq_socket(ctx, ZMQ_XREQ);
 	assert(socket);
 
+	int64_t affinity = 1;
+	rc = zmq_setsockopt(socket, ZMQ_AFFINITY, &affinity, sizeof(int64_t));
+	assert(rc == 0);
+
 	char address[24] = "tcp://localhost:8080";
-	int rc = zmq_connect(socket, address);
+	rc = zmq_connect(socket, address);
 	assert(rc == 0);
 
 	char str[NETBUFFER];
 	while (1)
 	{
-		rapidjsonTest();
 		cin >> str;
-		int nSize = zmq_send(socket, str, sizeof(str), 0);
+		zmq_msg_t request;
+		zmq_msg_init_size(&request, 5);
+		memcpy(zmq_msg_data(&request), "Hello", 5);
+		int nSize = zmq_msg_send(&request, socket, 0);
+		//int nSize = zmq_send(socket, str, sizeof(str), 0);
 		cout << str << endl;
 		cout << "nSize:" << nSize << endl;
 		memset(str, 0, NETBUFFER);

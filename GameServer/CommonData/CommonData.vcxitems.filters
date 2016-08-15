@@ -16,6 +16,9 @@
     <Filter Include="Heartbeat Package">
       <UniqueIdentifier>{038b96ef-5621-46cb-b06d-224df72d06ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZeroMq">
+      <UniqueIdentifier>{a606f3c6-a2a6-4fcf-83ad-442f714a0da6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h">
@@ -134,6 +137,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Json.h">
       <Filter>GameJson</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\include\zmq.h">
+      <Filter>ZeroMq</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\include\zmq_utils.h">
+      <Filter>ZeroMq</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

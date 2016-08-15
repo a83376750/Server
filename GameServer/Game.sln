@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{2270799E-A2E1-4D7B-9595-41DC584E1B0C}"
 EndProject
@@ -9,11 +9,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameClient", "GameClient\Ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonData", "CommonData\CommonData.vcxitems", "{45D41ACC-2C3C-43D2-BC10-02AA73FFC7C7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZeroMq", "ZeroMq\ZeroMq.vcxproj", "{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		CommonData\CommonData.vcxitems*{93f851b9-cf98-4b3b-ad9f-fda6d02fdc3f}*SharedItemsImports = 4
 		CommonData\CommonData.vcxitems*{2270799e-a2e1-4d7b-9595-41dc584e1b0c}*SharedItemsImports = 4
 		CommonData\CommonData.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
+		CommonData\CommonData.vcxitems*{93f851b9-cf98-4b3b-ad9f-fda6d02fdc3f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CommonData|Mixed Platforms = CommonData|Mixed Platforms
@@ -75,6 +77,30 @@ Global
 		{93F851B9-CF98-4B3B-AD9F-FDA6D02FDC3F}.Release|x64.ActiveCfg = Release|Win32
 		{93F851B9-CF98-4B3B-AD9F-FDA6D02FDC3F}.Release|x86.ActiveCfg = Release|Win32
 		{93F851B9-CF98-4B3B-AD9F-FDA6D02FDC3F}.Release|x86.Build.0 = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|Mixed Platforms.ActiveCfg = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|Mixed Platforms.Build.0 = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|Win32.ActiveCfg = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|Win32.Build.0 = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|x64.ActiveCfg = Release|x64
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|x64.Build.0 = Release|x64
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|x86.ActiveCfg = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.CommonData|x86.Build.0 = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|Win32.ActiveCfg = Debug|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|Win32.Build.0 = Debug|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|x64.ActiveCfg = Debug|x64
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|x64.Build.0 = Debug|x64
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|x86.ActiveCfg = Debug|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Debug|x86.Build.0 = Debug|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|Win32.ActiveCfg = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|Win32.Build.0 = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|x64.ActiveCfg = Release|x64
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|x64.Build.0 = Release|x64
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|x86.ActiveCfg = Release|Win32
+		{83A9A5FE-FCC7-4A3E-A34F-85D06DB5AC76}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
