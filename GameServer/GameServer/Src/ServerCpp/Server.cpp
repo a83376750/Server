@@ -14,6 +14,7 @@
 #endif
 
 
+
 Server *Server::m_server = nullptr;
 
 Server::Server()
@@ -92,8 +93,7 @@ unsigned int Server::StartServer()
 	m_ctx = zmq_ctx_new();
 	assert(m_ctx);
 
-	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
-	m_socket = zmq_socket(m_ctx, ZMQ_XREP);
+	m_socket = zmq_socket(m_ctx, ZMQ_ROUTER);
 	assert(m_socket);
 
 	// 	int64_t affinity = 1;

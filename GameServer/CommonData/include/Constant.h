@@ -16,6 +16,9 @@ enum ERRID
 
 #define PRINTFERRORINFO(ID) printf("Error ID:%d\n",ID)
 
+#define HOSTADDRESS "127.0.0.1"
+#define HOSTPORT 8080
+#define ZMQADDRESS "tcp://localhost:8080"
 
 enum CONECTTYPE
 {

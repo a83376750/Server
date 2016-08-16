@@ -18,6 +18,7 @@ public:
 	CONECTTYPE	NetType;
 public:
 #ifdef BASESOCKET
+	SOCKET *m_socket;
 #else
 	void *m_ctx;
 	void *m_socket;

@@ -1,17 +1,5 @@
 #include "Client.h"
-#include <iostream>
-#include <string>
 #include <assert.h>
-
-#define  GameC11
-//#define  BASESOCKET
-
-
-#ifdef GameC11
-#include <thread>
-#else
-#include <process.h>
-#endif
 
 
 
@@ -21,12 +9,9 @@
 #else
 #include "zmq.h"
 #endif
-#define HOSTADDRESS "127.0.0.1"
-#define HOSTPORT 8080
-
-using namespace std;
 
 
+Client* Client::m_client = nullptr;
 Client::Client()
 {
 
@@ -37,37 +22,43 @@ Client::~Client()
 
 }
 
+Client* Client::Instance()
+{
+	if (m_client)
+		return m_client;
+	else
+		return new Client();
+}
+
+void Client::SendData(void *buffer, size_t len)
+{
+	int nSize;
+	std::cout << "SendData - Start" << std::endl;
 #ifdef BASESOCKET
-void Client::SendData(void *s)
-{
-	SOCKET *socket = (SOCKET*)s;
-	cout << "SendData - Start" << endl;
-
-	char SendBuf[NETBUFFER];
-	while (1)
-	{
-		cin >> SendBuf;
-		if (send(*socket, SendBuf, sizeof(SendBuf), 0) == SOCKET_ERROR)
-		{
-			PRINTFERRORINFO(SendSocket_ERR);
-			continue;
-		}
-		printf("发送消息:%s\n", SendBuf);
-	}
-	cout << "SendData - End" << endl;
-}
-
-void Client::RecvData(void *s)
-{
-	SOCKET *socket = (SOCKET*)s;
-	cout << "RecvData - Start" << endl;
-	char RecvBuf[NETBUFFER];
-	memset(RecvBuf, 0, NETBUFFER);
-	int nSize = recv(*socket, RecvBuf, NETBUFFER, 0);
-	cout << "Buffer:" << RecvBuf << endl;
-	cout << "RecvData - End" << endl;
-}
+	if (nSize = send(m_socket, buffer, len, 0) == len)
+#else
+	if(nSize = zmq_send(m_socket,buffer, len,0) == len)
 #endif
+	{
+		std::cout << "发送消息:" << (char*)buffer << std::endl;
+	}
+	std::cout << "读取数据大小:" << nSize << std::endl;
+	std::cout << "SendData - End" << std::endl;
+}
+
+void Client::RecvData(void *buffer, size_t len)
+{
+	std::cout << "RecvData - Start" << std::endl;
+#ifdef BASESOCKET
+	int nSize = recv(m_socket, buffer, len, 0);
+#else
+	int nSize = zmq_recv(m_socket, buffer, len, 0);
+#endif
+	std::cout << "Buffer:" << (char*)buffer << std::endl;
+	std::cout << "RecvData - End" << std::endl;
+}
+
+
 
 unsigned int Client::StartClient()
 {
@@ -80,8 +71,8 @@ unsigned int Client::StartClient()
 		return StartSocket_ERR;
 	}
 
-	SOCKET Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (Socket == INVALID_SOCKET)
+	m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (m_socket == INVALID_SOCKET)
 	{
 		return CreateSocket_ERR;
 	}
@@ -93,18 +84,18 @@ unsigned int Client::StartClient()
 	inSin.sin_port = htons(HOSTPORT);
 	memset(inSin.sin_zero, 0x00, 8);
 
-	if (connect(Socket, (sockaddr*)&inSin, sizeof(inSin)))
+	if (connect(m_socket, (sockaddr*)&inSin, sizeof(inSin)))
 	{
 		return ConnectSocket_ERR;
 	}
 
 #ifdef GameC11
-	thread t1(SendData, &Socket);
+	thread t1(SendData, &m_socket);
 	t1.join();
 	thread::id nID = t1.get_id();
 
 #else
-	_beginthread(SendData, 0, (void*)(&Socket));
+	_beginthread(SendData, 0, (void*)(&m_socket));
 #endif
 
 	while (1)
@@ -112,40 +103,20 @@ unsigned int Client::StartClient()
 		cout << "主线程运行中...." << endl;
 		Sleep(1000);
 	}
-	closesocket(Socket);
+	closesocket(m_socket);
 	WSACleanup();
 #else
-	void *ctx = zmq_ctx_new();
-	assert(ctx);
-
+	m_ctx = zmq_ctx_new();
+	assert(m_ctx);
+	m_socket = zmq_socket(m_ctx, ZMQ_DEALER);
+	assert(m_socket);
 	int rc;
-
-	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
-	void *socket = zmq_socket(ctx, ZMQ_XREQ);
-	assert(socket);
-
-	int64_t affinity = 1;
-	rc = zmq_setsockopt(socket, ZMQ_AFFINITY, &affinity, sizeof(int64_t));
+// 	int64_t affinity = 1;
+// 	rc = zmq_setsockopt(socket, ZMQ_AFFINITY, &affinity, sizeof(int64_t));
+// 	assert(rc == 0);
+	char address[24] = ZMQADDRESS;
+	rc = zmq_connect(m_socket, address);
 	assert(rc == 0);
-
-	char address[24] = "tcp://localhost:8080";
-	rc = zmq_connect(socket, address);
-	assert(rc == 0);
-
-	char str[NETBUFFER];
-	while (1)
-	{
-		cin >> str;
-		zmq_msg_t request;
-		zmq_msg_init_size(&request, 5);
-		memcpy(zmq_msg_data(&request), "Hello", 5);
-		int nSize = zmq_msg_send(&request, socket, 0);
-		//int nSize = zmq_send(socket, str, sizeof(str), 0);
-		cout << str << endl;
-		cout << "nSize:" << nSize << endl;
-		memset(str, 0, NETBUFFER);
-	}
-
 #endif
 	return 0;
 }
