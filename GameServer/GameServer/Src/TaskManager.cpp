@@ -1,5 +1,6 @@
 #include "TaskManager.h"
 #include "Server.h"
+#include "Json.h"
 
 /************************************************************************/
 /* TaskManager                                                          */
@@ -98,22 +99,52 @@ void CharTask::setNum()
 /************************************************************************/
 /* RecvSendTask                                                           */
 /************************************************************************/
-RecvSendTask::RecvSendTask(Server *ptrServer)
+RecvTask::RecvTask(Server *ptrServer)
 	:m_pServer(ptrServer)
 {
 
 }
 
-RecvSendTask::~RecvSendTask()
+RecvTask::~RecvTask()
 {
 }
 
-void RecvSendTask::StartTask()
+void RecvTask::StartTask()
 {
-	unsigned char buffer[NETBUFFER];
+	char buffer[NETBUFFER];
 	while (m_pServer)
 	{
 		m_pServer->RecvBuffer(buffer);
+		BufferStream ss;
+		ss.InitDocument(buffer);
+		if (ss.IsJsonString())
+		{
+			switch (ss.ReadInt("Page"))
+			{
+				case PageType::TASK:
+				{
+					ss.PrintJsonString();
+
+					break;
+				}
+				case PageType::HEAD:
+				{
+					ss.PrintJsonString();
+
+					break;
+				}
+				default:
+				{
+					std::cout << "´íÎó°ü" << std::endl;
+					break;
+				}
+			}
+		}
+		else
+		{
+			std::cout << "²»ÊÇjsonstring" << std::endl;
+			std::cout << (char*)buffer << std::endl;
+		}
 	}
 }
 

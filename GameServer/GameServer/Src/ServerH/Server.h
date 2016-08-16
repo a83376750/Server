@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Constant.h"
-
+#include <map>
 
 class Server
 {
@@ -23,6 +23,7 @@ public:
 	void *m_ctx;
 	void *m_socket;
 #endif
-};
 
-void SaveBuffer(void *lpParameter);
+public:
+	std::map<char*, short> m_ClientHeadPackage;
+};

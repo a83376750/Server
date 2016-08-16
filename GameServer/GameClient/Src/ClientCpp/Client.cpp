@@ -58,8 +58,6 @@ void Client::RecvData(void *buffer, size_t len)
 	std::cout << "RecvData - End" << std::endl;
 }
 
-
-
 unsigned int Client::StartClient()
 {
 #ifdef BASESOCKET

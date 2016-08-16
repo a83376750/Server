@@ -74,7 +74,6 @@ unsigned int BufferStream::ReadUInt(std::string& key)
 
 int BufferStream::ReadInt(std::string& key)
 {
-	
 	return DocumentParse(key.c_str()).GetInt();
 }
 
@@ -106,6 +105,44 @@ rapidjson::Value & BufferStream::ReadObject(std::string& key)
 	return object;
 }
 
+unsigned int BufferStream::ReadUInt(const char *key)
+{
+
+	return DocumentParse(key).GetUint();
+}
+
+int BufferStream::ReadInt(const char *key)
+{
+	return DocumentParse(key).GetInt();
+}
+
+const char* BufferStream::ReadString(const char *key)
+{
+
+	return DocumentParse(key).GetString();
+}
+
+float BufferStream::ReadFloat(const char *key)
+{
+	return DocumentParse(key).GetFloat();
+}
+
+double BufferStream::ReadDouble(const char *key)
+{
+	return DocumentParse(key).GetDouble();
+}
+
+rapidjson::Value& BufferStream::ReadArray(const char *key)
+{
+	rapidjson::Value &array = DocumentParse(key);
+	return array;
+}
+
+rapidjson::Value & BufferStream::ReadObject(const char *key)
+{
+	rapidjson::Value& object = DocumentParse(key);
+	return object;
+}
 /***********************************************************************/
 /* Init	                                                               */
 /***********************************************************************/
@@ -119,6 +156,21 @@ const char* BufferStream::GetJsonString()
 		m_d.Accept(m_writer);
 	}
 	return m_sBuffer.GetString();
+}
+
+void BufferStream::PrintJsonString()
+{
+	std::cout << "Json×Ö·û´®:" << GetJsonString() << std::endl;
+}
+
+bool BufferStream::IsJsonString()
+{
+	if (m_d.HasParseError())
+	{
+		std::cout << "ParseError:" << m_d.GetParseError() << std::endl;
+		return false;
+	}
+	return true;
 }
 
 void BufferStream::InitData()
@@ -144,5 +196,12 @@ void BufferStream::InitDocument(const char *JsonString)
 rapidjson::Value& BufferStream::DocumentParse(const char *str)
 {
 	assert(str);
-	return m_d[str];
+	rapidjson::ParseErrorCode code = m_d.GetParseError();
+	if (!code)
+	{
+		if (m_d.HasMember(str))
+			return m_d[str];
+	}
+
+	return vEmpty;
 }

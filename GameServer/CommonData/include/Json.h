@@ -36,9 +36,20 @@ public:
 	rapidjson::Value& ReadArray(std::string& key);
 	rapidjson::Value& ReadObject(std::string& key);
 
+	unsigned int ReadUInt(const char *key);
+	int ReadInt(const char *key);
+	const char* ReadString(const char *key);
+	float ReadFloat(const char *key);
+	double ReadDouble(const char *key);
+	rapidjson::Value& ReadArray(const char *key);
+	rapidjson::Value& ReadObject(const char *key);
+
 	//获取json字符串
 	const char* GetJsonString();
+	void PrintJsonString();
 
+	//处理异常
+	bool IsJsonString();
 public:
 	void InitData();
 	void InitDocument(std::string& JsonString);
@@ -51,7 +62,7 @@ private:
 private:
 	rapidjson::Writer<rapidjson::StringBuffer> m_writer;
 	rapidjson::StringBuffer m_sBuffer;
-	rapidjson::Value v;
+	rapidjson::Value vEmpty;
 	bool	WriteObjectFlag;
 	bool	WriteArrayFlag;
 	bool	IsDocRead;
