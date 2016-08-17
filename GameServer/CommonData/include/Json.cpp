@@ -1,5 +1,6 @@
 #include "Json.h"
 #include <assert.h>
+#include <stdarg.h>
 
 BufferStream::BufferStream()
 {
@@ -38,6 +39,34 @@ void BufferStream::Write(const char *key, const char *value)
 	m_writer.String(value);
 }
 
+void BufferStream::Write(const char *key, int value)
+{
+	m_writer.Key(key);
+	m_writer.Int(value);
+}
+
+void BufferStream::Write(const char *key, unsigned int value)
+{
+	m_writer.Key(key);
+	m_writer.Uint(value);
+}
+
+void BufferStream::Write(const char *key, double value)
+{
+	m_writer.Key(key);
+	m_writer.Double(value);
+}
+
+void BufferStream::Write(const char *key)
+{
+	m_writer.Key(key);
+	m_writer.Null();
+}
+
+//template<typename... Types>
+//void BufferStream::WriteArray(const char *key, int count, Types ... args)
+
+
 void BufferStream::WriteObjectStart()
 {
 	WriteObjectFlag = true;
@@ -66,83 +95,91 @@ void BufferStream::WriteArrayEnd()
 /************************************************************************/
 /* Reader                                                               */
 /************************************************************************/
-unsigned int BufferStream::ReadUInt(std::string& key)
+bool BufferStream::ReadUInt(const char *key, unsigned int &value)
 {
-
-	return DocumentParse(key.c_str()).GetUint();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetUint();
+		return true;
+	}
+	else
+		return false;
 }
 
-int BufferStream::ReadInt(std::string& key)
+bool BufferStream::ReadInt(const char *key, int &value)
 {
-	return DocumentParse(key.c_str()).GetInt();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetInt();
+		return true;
+	}
+	else
+		return false;
 }
 
-const char* BufferStream::ReadString(std::string& key)
+bool BufferStream::ReadString(const char *key, char *value)
 {
 	
-	return DocumentParse(key.c_str()).GetString();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		memcpy(value, rv.GetString(), rv.GetStringLength());
+		return true;
+	}
+	else
+		return false;
 }
 
-float BufferStream::ReadFloat(std::string& key)
+bool BufferStream::ReadFloat(const char *key, float &value)
 {
-	return DocumentParse(key.c_str()).GetFloat();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetFloat();
+		return true;
+	}
+	else
+		return false;
 }
 
-double BufferStream::ReadDouble(std::string& key)
+bool BufferStream::ReadDouble(const char *key, double &value)
 {
-	return DocumentParse(key.c_str()).GetDouble();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetDouble();
+		return true;
+	}
+	else
+		return false;
 }
 
-rapidjson::Value& BufferStream::ReadArray(std::string& key)
+bool BufferStream::ReadArray(const char *key, rapidjson::Value &value)
 {
-	rapidjson::Value &array = DocumentParse(key.c_str());
-	return array;
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv;
+		return true;
+	}
+	else
+		return false;
 }
 
-rapidjson::Value & BufferStream::ReadObject(std::string& key)
+bool BufferStream::ReadObject(const char *key, rapidjson::Value &value)
 {
-	rapidjson::Value& object = DocumentParse(key.c_str());
-	return object;
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv;
+		return true;
+	}
+	else
+		return false;
 }
 
-unsigned int BufferStream::ReadUInt(const char *key)
-{
-
-	return DocumentParse(key).GetUint();
-}
-
-int BufferStream::ReadInt(const char *key)
-{
-	return DocumentParse(key).GetInt();
-}
-
-const char* BufferStream::ReadString(const char *key)
-{
-
-	return DocumentParse(key).GetString();
-}
-
-float BufferStream::ReadFloat(const char *key)
-{
-	return DocumentParse(key).GetFloat();
-}
-
-double BufferStream::ReadDouble(const char *key)
-{
-	return DocumentParse(key).GetDouble();
-}
-
-rapidjson::Value& BufferStream::ReadArray(const char *key)
-{
-	rapidjson::Value &array = DocumentParse(key);
-	return array;
-}
-
-rapidjson::Value & BufferStream::ReadObject(const char *key)
-{
-	rapidjson::Value& object = DocumentParse(key);
-	return object;
-}
 /***********************************************************************/
 /* Init	                                                               */
 /***********************************************************************/
@@ -188,12 +225,12 @@ bool BufferStream::IsJsonString(void *buffer)
 			GetParseError_En(reader.GetParseErrorCode()));
 		return false;
 	}
+
  	// Check the validation result
    	if (validator.IsValid())
    	{
-		//不清楚这里错误的json都可以通过,打个小补丁
-		std::string str = "/" + std::string((char*)buffer);
-
+		//这里通过查找特殊成员page来判断包是否json
+		std::string str("/Page");
 		rapidjson::Value *value = rapidjson::Pointer(str.c_str()).Get(m_d);
 		if (value != nullptr)
 		{

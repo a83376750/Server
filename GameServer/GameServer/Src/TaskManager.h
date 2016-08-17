@@ -39,6 +39,7 @@ public:
 
 	enum PageType
 	{
+		ERROR,
 		TASK,
 		HEAD,
 	};
@@ -68,6 +69,20 @@ public:
 	virtual ~RecvTask();
 	virtual void StartTask();
 
+private:
+	Server *m_pServer;
+};
+
+
+/************************************************************************/
+/* JsonParse                                                            */
+/************************************************************************/
+class JsonParse : public ServerTask
+{
+public:
+	JsonParse(Server *ptrServer);
+	virtual ~JsonParse();
+	virtual void StartTask() override;
 private:
 	Server *m_pServer;
 };

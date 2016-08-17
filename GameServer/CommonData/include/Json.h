@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <tuple>
+#include <functional>
 
 #include "../ThirdLibrary/rapidjson/allocators.h"
 #include "../ThirdLibrary/rapidjson/writer.h"
@@ -23,6 +25,39 @@ public:
 	//写入json(SAX)
 	void Write(std::string key, std::string value);
 	void Write(const char *key, const char *value);
+	void Write(const char *key, int value);
+	void Write(const char *key, unsigned int value);
+	void Write(const char *key, double value);
+	//写入一个NULL值
+	void Write(const char *key);
+
+	template<class ... Types>
+	void WriteArray(const char *key, Types ... args)
+	{
+		//va_list ap;
+		//va_start(ap, count);
+		//for(int i = 0; i < count; ++i)
+		//{
+		//	va_arg(ap, int);
+		//}
+		//va_end(ap);
+
+		m_writer.StartArray();
+		int nCount = sizeof...(args);
+		auto t1 = std::make_tuple(args...);/*
+		std::cout << std::get<0>(t1) << " ";
+		std::cout << std::get<1>(t1) << " ";
+		std::cout << std::get<2>(t1) << " ";
+		std::cout << std::get<3>(t1) << " ";
+		std::cout << std::endl;*/
+		//for (size_t i = 0; i < nCount; ++i)
+		//{
+		//	std::cout << std::get<i>(t1) << std::endl;
+		//}
+		std::cout << "变长参数个数:" << sizeof...(args) << std::endl;
+		m_writer.EndArray();
+	}
+
 	void WriteObjectStart();
 	void WriteObjectEnd();
 	void WriteArrayStart();
@@ -30,21 +65,14 @@ public:
 
 
 	//读取json(DOM)
-	unsigned int ReadUInt(std::string& key);
-	int ReadInt(std::string& key);
-	const char* ReadString(std::string& key);
-	float ReadFloat(std::string& key);
-	double ReadDouble(std::string& key);
-	rapidjson::Value& ReadArray(std::string& key);
-	rapidjson::Value& ReadObject(std::string& key);
+	bool ReadUInt(const char *key, unsigned int &value);
+	bool ReadInt(const char *key, int &value);
+	bool ReadString(const char *key, char *value);
+	bool ReadFloat(const char *key, float &value);
+	bool ReadDouble(const char *key, double &value);
+	bool ReadArray(const char *key, rapidjson::Value &value);
+	bool ReadObject(const char *key, rapidjson::Value &value);
 
-	unsigned int ReadUInt(const char *key);
-	int ReadInt(const char *key);
-	const char* ReadString(const char *key);
-	float ReadFloat(const char *key);
-	double ReadDouble(const char *key);
-	rapidjson::Value& ReadArray(const char *key);
-	rapidjson::Value& ReadObject(const char *key);
 
 	//获取json字符串
 	const char* GetJsonString();

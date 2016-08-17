@@ -118,7 +118,9 @@ void RecvTask::StartTask()
 		BufferStream ss;
 		if (ss.InitDocument(buffer))
 		{
-			switch (ss.ReadInt("Page"))
+			int value = ERROR;
+			ss.ReadInt("Page", value);
+			switch (value)
 			{
 				case PageType::TASK:
 				{
@@ -129,7 +131,8 @@ void RecvTask::StartTask()
 				case PageType::HEAD:
 				{
 					ss.PrintJsonString();
-
+					BufferStream re;
+					re.Write("Page", "2");
 					break;
 				}
 				default:
@@ -147,3 +150,23 @@ void RecvTask::StartTask()
 	}
 }
 
+/************************************************************************/
+/* JsonParse                                                            */
+/************************************************************************/
+JsonParse::JsonParse(Server *ptrServer)
+{
+	m_pServer = ptrServer;
+}
+
+JsonParse::~JsonParse()
+{
+
+}
+
+void JsonParse::StartTask()
+{
+	BufferStream ss;
+	ss.WriteArray("arr", 3, 1, 2, 3);
+	std::cout << ss.GetJsonString() << std::endl;
+	m_pServer->WriteBuffer((void*)ss.GetJsonString(), 1024);
+}

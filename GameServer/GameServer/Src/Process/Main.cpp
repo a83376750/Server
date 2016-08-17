@@ -7,6 +7,7 @@ void StartServer()
 	server->StartServer();
 	std::shared_ptr<ThreadPoor> poor = std::make_shared<ThreadPoor>();
 	poor->pushTask(new RecvTask(server));
+	poor->pushTask(new JsonParse(server));
 	while (1)
 	{
 		std::cout << "服务器线程已启动" << std::endl;
