@@ -116,8 +116,7 @@ void RecvTask::StartTask()
 	{
 		m_pServer->RecvBuffer(buffer);
 		BufferStream ss;
-		ss.InitDocument(buffer);
-		if (ss.IsJsonString())
+		if (ss.InitDocument(buffer))
 		{
 			switch (ss.ReadInt("Page"))
 			{

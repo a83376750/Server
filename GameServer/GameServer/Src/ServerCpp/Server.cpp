@@ -128,7 +128,7 @@ unsigned int Server::StartServer()
 	return Succee_ERR;
 }
 
-
+//客户端发送上来的包会有两个,第一个是空包,第二个才是数据
 void Server::RecvBuffer(void *buffer)
 {
 	int nBytes = zmq_recv(m_socket, buffer, NETBUFFER, 0);

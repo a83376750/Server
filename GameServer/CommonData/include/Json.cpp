@@ -163,14 +163,62 @@ void BufferStream::PrintJsonString()
 	std::cout << "Json字符串:" << GetJsonString() << std::endl;
 }
 
-bool BufferStream::IsJsonString()
+bool BufferStream::IsJsonString(void *buffer)
 {
 	if (m_d.HasParseError())
 	{
-		std::cout << "ParseError:" << m_d.GetParseError() << std::endl;
+		fprintf(stderr, "Schema file '%s' is not a valid JSON\n", (char*)buffer);
+		fprintf(stderr, "Error(offset %u): %s\n",
+			static_cast<unsigned>(m_d.GetErrorOffset()),
+			GetParseError_En(m_d.GetParseError()));
 		return false;
 	}
-	return true;
+
+	rapidjson::SchemaDocument sd(m_d);
+
+	//将用户的json信息转换为SAX事件转发给验证器
+	rapidjson::SchemaValidator validator(sd);
+	rapidjson::Reader reader;
+	rapidjson::StringStream sb((char*)buffer);
+	if (!reader.Parse(sb, validator) && reader.GetParseErrorCode() != rapidjson::kParseErrorTermination)
+	{
+		fprintf(stderr, "Input is not a valid JSON\n");
+		fprintf(stderr, "Error(offset %u): %s\n",
+			static_cast<unsigned>(reader.GetErrorOffset()),
+			GetParseError_En(reader.GetParseErrorCode()));
+		return false;
+	}
+ 	// Check the validation result
+   	if (validator.IsValid())
+   	{
+		//不清楚这里错误的json都可以通过,打个小补丁
+		std::string str = "/" + std::string((char*)buffer);
+
+		rapidjson::Value *value = rapidjson::Pointer(str.c_str()).Get(m_d);
+		if (value != nullptr)
+		{
+			printf("Input JSON is valid.\n");
+			return true;
+		}
+		else
+		{
+			printf("Input JSON is invalid.\n");
+			return false;
+		}
+   	}
+   	else
+   	{
+   		printf("Input JSON is invalid.\n");
+   		rapidjson::StringBuffer sb;
+   		validator.GetInvalidSchemaPointer().StringifyUriFragment(sb);
+   		fprintf(stderr, "Invalid schema: %s\n", sb.GetString());
+   		fprintf(stderr, "Invalid keyword: %s\n", validator.GetInvalidSchemaKeyword());
+   		sb.Clear();
+   		validator.GetInvalidDocumentPointer().StringifyUriFragment(sb);
+   		fprintf(stderr, "Invalid document: %s\n", sb.GetString());
+   		return false;
+   	}
+
 }
 
 void BufferStream::InitData()
@@ -182,15 +230,20 @@ void BufferStream::InitData()
 	m_writer.Reset(m_sBuffer);
 }	
 
-void BufferStream::InitDocument(std::string& JsonString)
+bool BufferStream::InitDocument(std::string& JsonString)
 {
-	InitDocument(JsonString.c_str());
+	return InitDocument(JsonString.c_str());
 }
 
-void BufferStream::InitDocument(const char *JsonString)
+bool BufferStream::InitDocument(const char *JsonString)
 {
 	m_d.Parse(JsonString);
-	IsDocRead = true;
+	if (IsJsonString((void*)JsonString))
+	{
+		IsDocRead = true;
+		return true;
+	}
+	return false;
 }
 
 rapidjson::Value& BufferStream::DocumentParse(const char *str)
@@ -202,6 +255,6 @@ rapidjson::Value& BufferStream::DocumentParse(const char *str)
 		if (m_d.HasMember(str))
 			return m_d[str];
 	}
-
+	
 	return vEmpty;
 }

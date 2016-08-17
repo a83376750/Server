@@ -8,6 +8,8 @@
 #include "../ThirdLibrary/rapidjson/stringbuffer.h"
 #include "../ThirdLibrary/rapidjson/document.h"
 #include "../ThirdLibrary/rapidjson/prettywriter.h"
+#include "../ThirdLibrary/rapidjson/error/en.h"
+#include "../ThirdLibrary/rapidjson/schema.h"
 
 class BufferStream
 {
@@ -49,11 +51,11 @@ public:
 	void PrintJsonString();
 
 	//¥¶¿Ì“Ï≥£
-	bool IsJsonString();
+	bool IsJsonString(void *buffer);
 public:
 	void InitData();
-	void InitDocument(std::string& JsonString);
-	void InitDocument(const char *JsonString);
+	bool InitDocument(std::string& JsonString);
+	bool InitDocument(const char *JsonString);
 private:
 	rapidjson::Value&  DocumentParse(const char *str);
 
