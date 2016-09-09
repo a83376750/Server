@@ -16,6 +16,12 @@
     <Filter Include="Heartbeat Package">
       <UniqueIdentifier>{038b96ef-5621-46cb-b06d-224df72d06ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{83cd2a44-ebab-4f71-a6e7-f551e374d94c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ini">
+      <UniqueIdentifier>{b30fac72-fb03-43fb-b7f0-c0205020f915}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h">
@@ -135,6 +141,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Json.h">
       <Filter>GameJson</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\Ini.h">
+      <Filter>ini</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)include\Log.h">
+      <Filter>log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp">
@@ -145,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)include\Json.cpp">
       <Filter>GameJson</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\Ini.cpp">
+      <Filter>ini</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)include\Log.cpp">
+      <Filter>log</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

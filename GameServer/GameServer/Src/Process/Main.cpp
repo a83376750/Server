@@ -1,5 +1,6 @@
 #include "Server.h"
 #include "ThreadPoor.h"
+#include "../CommonData/include/Ini.h"
 
 void StartServer()
 {
@@ -23,6 +24,7 @@ void CloseServer()
 	}
 	catch (std::exception& e)
 	{
+		std::cout << e.what() << std::endl;
 	}
 }
 
@@ -37,6 +39,7 @@ void DisplayMenu()
 
 		std::cout << "1.启动服务器" << std::endl;
 		std::cout << "2.关闭服务器" << std::endl;
+		std::cout << "3.测试读取文件" << std::endl;
 
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "*****************************************************" << std::endl;
@@ -55,6 +58,52 @@ void DisplayMenu()
 			{
 				CloseServer();
 				bStart = false;
+				break;
+			}
+			case 3:
+			{
+#define INI_COMDEF "COMDEF"
+				CIni ini;
+				char str[1024];
+				ini.ReadString(INI_COMDEF, "com", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString(INI_COMDEF, "scan", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString(INI_COMDEF, "BaudRate", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString(INI_COMDEF, "Parity", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString(INI_COMDEF, "StopBit", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString(INI_COMDEF, "ReadTimeOut", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString(INI_COMDEF, "WriteTimeOut", str);
+				std::cout << str << std::endl;
+
+
+				ini.ReadString("PORTDEF", "01", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString("PORTDEF", "03", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString("PORTDEF", "05", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString("PORTDEF", "68", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString("LOG", "bOpen", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString("DEBUG", "bOpen", str);
+				std::cout << str << std::endl;
 				break;
 			}
 			default:
