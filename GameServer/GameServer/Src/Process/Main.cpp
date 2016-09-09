@@ -1,6 +1,7 @@
 #include "Server.h"
 #include "ThreadPoor.h"
-#include "../CommonData/include/Ini.h"
+#include "Ini.h"
+#include "Log.h"
 
 void StartServer()
 {
@@ -40,6 +41,7 @@ void DisplayMenu()
 		std::cout << "1.启动服务器" << std::endl;
 		std::cout << "2.关闭服务器" << std::endl;
 		std::cout << "3.测试读取文件" << std::endl;
+		std::cout << "4.测试LOG" << std::endl;
 
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "*****************************************************" << std::endl;
@@ -132,6 +134,12 @@ void DisplayMenu()
 
 				i = ini.ReadInt("PORTDEF", "68");
 				std::cout << i << std::endl;
+				break;
+			}
+
+			case 4:
+			{
+				CLog::Write("123");
 				break;
 			}
 			default:

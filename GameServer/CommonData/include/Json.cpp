@@ -146,3 +146,37 @@ rapidjson::Value& BufferStream::DocumentParse(const char *str)
 	assert(str);
 	return m_d[str];
 }
+
+#ifdef DEBUG
+void writeTest()
+{
+	rapidjson::Document document;
+	rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+	rapidjson::Value root(rapidjson::kObjectType);
+	root.AddMember("name", "¸çÂ×²¼°¡", allocator);
+	root.AddMember("gold", 1234, allocator);
+	rapidjson::StringBuffer buffer;
+	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	root.Accept(writer);
+	std::string reststring = buffer.GetString();
+	std::cout << reststring << std::endl;
+	getchar();
+}
+
+void test()
+{
+	BufferStream ss;
+	ss.InitDocument("{\"project\":\"rapidjson\",\"stars\":10}");
+	std::cout << ss.GetJsonString() << std::endl;
+	// 	BufferStream ss;
+	// 	ss.InitDocument("{\"UpdateInfo\":[{\"url\":\"aaaa.ipa\",\"platform\":\"ios\"}]}");
+	// 	rapidjson::Value& v = ss.ReadArray("UpdateInfo");
+
+	//BufferStream ss;
+	//ss.WriteObjectStart();
+	//ss.Write("123", "val");
+	//ss.WriteObjectEnd();
+	//std::cout << ss.GetJsonString() << std::endl;
+	getchar();
+}
+#endif

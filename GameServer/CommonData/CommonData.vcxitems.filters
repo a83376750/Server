@@ -22,6 +22,9 @@
     <Filter Include="ini">
       <UniqueIdentifier>{b30fac72-fb03-43fb-b7f0-c0205020f915}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Performance Function">
+      <UniqueIdentifier>{e6e58f14-6487-4abb-9596-12d34db6876b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Constant.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Log.h">
       <Filter>log</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PerforFunction.h">
+      <Filter>Performance Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp">
@@ -163,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)include\Log.cpp">
       <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PerforFunction.cpp">
+      <Filter>Performance Function</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

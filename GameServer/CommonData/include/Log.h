@@ -16,4 +16,3 @@ private:
 	static bool IsOpenLog();
 	static std::ofstream os;
 };
-

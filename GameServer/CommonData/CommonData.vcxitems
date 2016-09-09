@@ -56,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Json.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\KeepAlive.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)include\Log.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PerforFunction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.cpp" />
@@ -63,5 +64,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)include\Json.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)include\KeepAlive.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)include\Log.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PerforFunction.cpp" />
   </ItemGroup>
 </Project>

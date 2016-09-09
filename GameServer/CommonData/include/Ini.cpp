@@ -1,8 +1,8 @@
 #include "Ini.h"
 
 CIni::CIni()
+	:m_sPath(INI_PATH)
 {
-	Init();
 }
 
 
@@ -10,14 +10,10 @@ CIni::~CIni()
 {
 }
 
-void CIni::Init()
-{
-	m_sPath = INI_PATH;
-}
 
 bool CIni::WriteString(const char *sAppName, const char *sKey, const char *sValue)
 {
-	return WritePrivateProfileString(sAppName, sKey, sValue, m_sPath.c_str());
+	return !!WritePrivateProfileString(sAppName, sKey, sValue, m_sPath.c_str());
 }
 
 unsigned long CIni::ReadString(const char *sAppName, const char *sKey, char *sOutput, const char *sDefault)
@@ -46,25 +42,25 @@ void CIni::SetPath(const char *sPath)
 #ifdef WIN32
 
 #else
-bool WritePrivateProfileString(const char *sAppName, const char *sKey, const char *sValue, const char *sDefault)
+bool CIni::WritePrivateProfileString(const char *sAppName, const char *sKey, const char *sValue, const char *sDefault)
 {
 	return true;
 }
 
-unsigned long GetPrivateProfileString(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
+unsigned long CIni::GetPrivateProfileString(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
 	char *lpReturnedString, unsigned long nSize, const char *lpFileName)
 {
 	return PackagingFunction(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
 }
 
-long GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName)
+long CIni::GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName)
 {
 	char Return_Value[512];
 	PackagingFunction(lpAppName, lpKeyName, "", Return_Value, sizeof(Return_Value), lpFileName);
 	return atoi(Return_Value);
 }
 
-long PackagingFunction(const char *lpAppName, const char *lpKeyName, const char *lpDefault, char *lpReturnedString, unsigned long nSize, const char *lpFileName)
+long CIni::PackagingFunction(const char *lpAppName, const char *lpKeyName, const char *lpDefault, char *lpReturnedString, unsigned long nSize, const char *lpFileName)
 {
 	std::fstream fs;
 	fs.open(lpFileName, std::ios::in);
@@ -133,7 +129,7 @@ long PackagingFunction(const char *lpAppName, const char *lpKeyName, const char 
 		if (nBeg == std::string::npos || nBeg > eq)
 			continue;
 
-		for (int i = nBeg + strlen(lpKeyName); i < ss.size(); ++i)
+		for (size_t i = nBeg + strlen(lpKeyName); i < ss.size(); ++i)
 		{
 			if (ss[i] != ' ' || ss[i] != '=')
 			{

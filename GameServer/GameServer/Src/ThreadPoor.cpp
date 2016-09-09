@@ -25,7 +25,7 @@ ThreadPoor::~ThreadPoor()
 void ThreadPoor::InitPoor()
 {
 #ifdef DEBUG
-	assert(std::thread::hardware_concurrency() < MAXTHREADCOUNT);
+	assert(std::thread::hardware_concurrency() > MAXTHREADCOUNT);
 #endif // DEBUG
 
 	m_flag = ThreadFlag::RUNNING;

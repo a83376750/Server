@@ -3,9 +3,9 @@
 
 int main(int argc, char * argv[])
 {
-#if DEBUG
-	if (__cplusplus < 201103L)
-		return -1;
+#ifdef DEBUG
+	//if (__cplusplus < 201103L)
+	//	return -1;
 #endif
 
 	Client *StartClient = new Client();
