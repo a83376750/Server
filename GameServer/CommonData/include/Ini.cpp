@@ -54,6 +54,18 @@ bool WritePrivateProfileString(const char *sAppName, const char *sKey, const cha
 unsigned long GetPrivateProfileString(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
 	char *lpReturnedString, unsigned long nSize, const char *lpFileName)
 {
+	return PackagingFunction(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
+}
+
+long GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName)
+{
+	char Return_Value[512];
+	PackagingFunction(lpAppName, lpKeyName, "", Return_Value, sizeof(Return_Value), lpFileName);
+	return atoi(Return_Value);
+}
+
+long PackagingFunction(const char *lpAppName, const char *lpKeyName, const char *lpDefault, char *lpReturnedString, unsigned long nSize, const char *lpFileName)
+{
 	std::fstream fs;
 	fs.open(lpFileName, std::ios::in);
 
@@ -89,7 +101,8 @@ unsigned long GetPrivateProfileString(const char *lpAppName, const char *lpKeyNa
 		if (str[0] == '#' || str[0] == ' ' || str == "")
 			continue;
 
-		(str[0] == '[') ? isSameApp = false : isSameApp = true;
+		if(!isSameApp && (str[0] == '['))
+			isSameApp = false;
 
 		//≤È’“App
 		if (!isSameApp)
@@ -108,11 +121,12 @@ unsigned long GetPrivateProfileString(const char *lpAppName, const char *lpKeyNa
 				continue;
 
 			fs.getline(str, sizeof(str));
+			isSameApp = true;
 		}
 		//≤È’“Key
 		ss.assign(str);
 		size_t eq = ss.find_first_of('=');
-		if(eq == std::string::npos)
+		if (eq == std::string::npos)
 			continue;
 
 		nBeg = ss.find(lpKeyName);
@@ -128,14 +142,10 @@ unsigned long GetPrivateProfileString(const char *lpAppName, const char *lpKeyNa
 			}
 		}
 	}
-	if(lpDefault == nullptr)
+
+	if (lpDefault == nullptr)
 		return -1;
 	return strlen(lpDefault);
-}
-
-long GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName)
-{
-	return 0;
 }
 
 #endif

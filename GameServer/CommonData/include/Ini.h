@@ -39,4 +39,7 @@ GetPrivateProfileInt
 
 	long GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName);
 
+	long PackagingFunction(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
+		char *lpReturnedString, unsigned long nSize, const char *lpFileName);
+
 #endif

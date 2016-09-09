@@ -104,6 +104,34 @@ void DisplayMenu()
 
 				ini.ReadString("DEBUG", "bOpen", str);
 				std::cout << str << std::endl;
+
+				ini.ReadString("NETDEF", "01", str);
+				std::cout << str << std::endl;
+
+				ini.ReadString("NETDEF", "68", str);
+				std::cout << str << std::endl;
+
+				int i = ini.ReadInt("DEBUG", "bOpen");
+				std::cout << i << std::endl;
+
+
+				i = ini.ReadInt("DEBUG", "bOpen");
+				std::cout << i << std::endl;
+
+				i = ini.ReadInt("PORTDEF", "01");
+				std::cout << i << std::endl;
+
+				i = ini.ReadInt("PORTDEF", "03");
+				std::cout << i << std::endl;
+
+				i = ini.ReadInt("PORTDEF", "06");
+				std::cout << i << std::endl;
+
+				i = ini.ReadInt("PORTDEF", "44");
+				std::cout << i << std::endl;
+
+				i = ini.ReadInt("PORTDEF", "68");
+				std::cout << i << std::endl;
 				break;
 			}
 			default:
