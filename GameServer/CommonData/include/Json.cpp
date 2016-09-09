@@ -1,5 +1,6 @@
 #include "Json.h"
 #include <assert.h>
+#include <stdarg.h>
 
 BufferStream::BufferStream()
 {
@@ -38,6 +39,34 @@ void BufferStream::Write(const char *key, const char *value)
 	m_writer.String(value);
 }
 
+void BufferStream::Write(const char *key, int value)
+{
+	m_writer.Key(key);
+	m_writer.Int(value);
+}
+
+void BufferStream::Write(const char *key, unsigned int value)
+{
+	m_writer.Key(key);
+	m_writer.Uint(value);
+}
+
+void BufferStream::Write(const char *key, double value)
+{
+	m_writer.Key(key);
+	m_writer.Double(value);
+}
+
+void BufferStream::Write(const char *key)
+{
+	m_writer.Key(key);
+	m_writer.Null();
+}
+
+//template<typename... Types>
+//void BufferStream::WriteArray(const char *key, int count, Types ... args)
+
+
 void BufferStream::WriteObjectStart()
 {
 	WriteObjectFlag = true;
@@ -66,44 +95,89 @@ void BufferStream::WriteArrayEnd()
 /************************************************************************/
 /* Reader                                                               */
 /************************************************************************/
-unsigned int BufferStream::ReadUInt(std::string& key)
+bool BufferStream::ReadUInt(const char *key, unsigned int &value)
 {
-
-	return DocumentParse(key.c_str()).GetUint();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetUint();
+		return true;
+	}
+	else
+		return false;
 }
 
-int BufferStream::ReadInt(std::string& key)
+bool BufferStream::ReadInt(const char *key, int &value)
+{
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetInt();
+		return true;
+	}
+	else
+		return false;
+}
+
+bool BufferStream::ReadString(const char *key, char *value)
 {
 	
-	return DocumentParse(key.c_str()).GetInt();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		memcpy(value, rv.GetString(), rv.GetStringLength());
+		return true;
+	}
+	else
+		return false;
 }
 
-const char* BufferStream::ReadString(std::string& key)
+bool BufferStream::ReadFloat(const char *key, float &value)
 {
-	
-	return DocumentParse(key.c_str()).GetString();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetFloat();
+		return true;
+	}
+	else
+		return false;
 }
 
-float BufferStream::ReadFloat(std::string& key)
+bool BufferStream::ReadDouble(const char *key, double &value)
 {
-	return DocumentParse(key.c_str()).GetFloat();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv.GetDouble();
+		return true;
+	}
+	else
+		return false;
 }
 
-double BufferStream::ReadDouble(std::string& key)
+bool BufferStream::ReadArray(const char *key, rapidjson::Value &value)
 {
-	return DocumentParse(key.c_str()).GetDouble();
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv;
+		return true;
+	}
+	else
+		return false;
 }
 
-rapidjson::Value& BufferStream::ReadArray(std::string& key)
+bool BufferStream::ReadObject(const char *key, rapidjson::Value &value)
 {
-	rapidjson::Value &array = DocumentParse(key.c_str());
-	return array;
-}
-
-rapidjson::Value & BufferStream::ReadObject(std::string& key)
-{
-	rapidjson::Value& object = DocumentParse(key.c_str());
-	return object;
+	rapidjson::Value &rv = DocumentParse(key);
+	if (rv != vEmpty)
+	{
+		value = rv;
+		return true;
+	}
+	else
+		return false;
 }
 
 /***********************************************************************/
@@ -121,6 +195,69 @@ const char* BufferStream::GetJsonString()
 	return m_sBuffer.GetString();
 }
 
+void BufferStream::PrintJsonString()
+{
+	std::cout << "Json字符串:" << GetJsonString() << std::endl;
+}
+
+bool BufferStream::IsJsonString(void *buffer)
+{
+	if (m_d.HasParseError())
+	{
+		fprintf(stderr, "Schema file '%s' is not a valid JSON\n", (char*)buffer);
+		fprintf(stderr, "Error(offset %u): %s\n",
+			static_cast<unsigned>(m_d.GetErrorOffset()),
+			GetParseError_En(m_d.GetParseError()));
+		return false;
+	}
+
+	rapidjson::SchemaDocument sd(m_d);
+
+	//将用户的json信息转换为SAX事件转发给验证器
+	rapidjson::SchemaValidator validator(sd);
+	rapidjson::Reader reader;
+	rapidjson::StringStream sb((char*)buffer);
+	if (!reader.Parse(sb, validator) && reader.GetParseErrorCode() != rapidjson::kParseErrorTermination)
+	{
+		fprintf(stderr, "Input is not a valid JSON\n");
+		fprintf(stderr, "Error(offset %u): %s\n",
+			static_cast<unsigned>(reader.GetErrorOffset()),
+			GetParseError_En(reader.GetParseErrorCode()));
+		return false;
+	}
+
+ 	// Check the validation result
+   	if (validator.IsValid())
+   	{
+		//这里通过查找特殊成员page来判断包是否json
+		std::string str("/Page");
+		rapidjson::Value *value = rapidjson::Pointer(str.c_str()).Get(m_d);
+		if (value != nullptr)
+		{
+			printf("Input JSON is valid.\n");
+			return true;
+		}
+		else
+		{
+			printf("Input JSON is invalid.\n");
+			return false;
+		}
+   	}
+   	else
+   	{
+   		printf("Input JSON is invalid.\n");
+   		rapidjson::StringBuffer sb;
+   		validator.GetInvalidSchemaPointer().StringifyUriFragment(sb);
+   		fprintf(stderr, "Invalid schema: %s\n", sb.GetString());
+   		fprintf(stderr, "Invalid keyword: %s\n", validator.GetInvalidSchemaKeyword());
+   		sb.Clear();
+   		validator.GetInvalidDocumentPointer().StringifyUriFragment(sb);
+   		fprintf(stderr, "Invalid document: %s\n", sb.GetString());
+   		return false;
+   	}
+
+}
+
 void BufferStream::InitData()
 {
 	WriteObjectFlag = false;
@@ -130,21 +267,33 @@ void BufferStream::InitData()
 	m_writer.Reset(m_sBuffer);
 }	
 
-void BufferStream::InitDocument(std::string& JsonString)
+bool BufferStream::InitDocument(std::string& JsonString)
 {
-	InitDocument(JsonString.c_str());
+	return InitDocument(JsonString.c_str());
 }
 
-void BufferStream::InitDocument(const char *JsonString)
+bool BufferStream::InitDocument(const char *JsonString)
 {
 	m_d.Parse(JsonString);
-	IsDocRead = true;
+	if (IsJsonString((void*)JsonString))
+	{
+		IsDocRead = true;
+		return true;
+	}
+	return false;
 }
 
 rapidjson::Value& BufferStream::DocumentParse(const char *str)
 {
 	assert(str);
-	return m_d[str];
+	rapidjson::ParseErrorCode code = m_d.GetParseError();
+	if (!code)
+	{
+		if (m_d.HasMember(str))
+			return m_d[str];
+	}
+	
+	return vEmpty;
 }
 
 #ifdef DEBUG

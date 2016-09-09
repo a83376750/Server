@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Constant.h"
-
+#include <map>
 
 class Server
 {
@@ -18,10 +18,12 @@ public:
 	CONECTTYPE	NetType;
 public:
 #ifdef BASESOCKET
+	SOCKET *m_socket;
 #else
 	void *m_ctx;
 	void *m_socket;
 #endif
-};
 
-void SaveBuffer(void *lpParameter);
+public:
+	std::map<char*, short> m_ClientHeadPackage;
+};

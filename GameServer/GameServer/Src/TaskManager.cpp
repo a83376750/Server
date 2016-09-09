@@ -1,5 +1,6 @@
 #include "TaskManager.h"
 #include "Server.h"
+#include "Json.h"
 
 /************************************************************************/
 /* TaskManager                                                          */
@@ -98,22 +99,74 @@ void CharTask::setNum()
 /************************************************************************/
 /* RecvSendTask                                                           */
 /************************************************************************/
-RecvSendTask::RecvSendTask(Server *ptrServer)
+RecvTask::RecvTask(Server *ptrServer)
 	:m_pServer(ptrServer)
 {
 
 }
 
-RecvSendTask::~RecvSendTask()
+RecvTask::~RecvTask()
 {
 }
 
-void RecvSendTask::StartTask()
+void RecvTask::StartTask()
 {
-	unsigned char buffer[NETBUFFER];
+	char buffer[NETBUFFER];
 	while (m_pServer)
 	{
 		m_pServer->RecvBuffer(buffer);
+		BufferStream ss;
+		if (ss.InitDocument(buffer))
+		{
+			int value = ERROR;
+			ss.ReadInt("Page", value);
+			switch (value)
+			{
+				case PageType::TASK:
+				{
+					ss.PrintJsonString();
+
+					break;
+				}
+				case PageType::HEAD:
+				{
+					ss.PrintJsonString();
+					BufferStream re;
+					re.Write("Page", "2");
+					break;
+				}
+				default:
+				{
+					std::cout << "´íÎó°ü" << std::endl;
+					break;
+				}
+			}
+		}
+		else
+		{
+			std::cout << "²»ÊÇjsonstring" << std::endl;
+			std::cout << (char*)buffer << std::endl;
+		}
 	}
 }
 
+/************************************************************************/
+/* JsonParse                                                            */
+/************************************************************************/
+JsonParse::JsonParse(Server *ptrServer)
+{
+	m_pServer = ptrServer;
+}
+
+JsonParse::~JsonParse()
+{
+
+}
+
+void JsonParse::StartTask()
+{
+	BufferStream ss;
+	ss.WriteArray("arr", 3, 1, 2, 3);
+	std::cout << ss.GetJsonString() << std::endl;
+	m_pServer->WriteBuffer((void*)ss.GetJsonString(), 1024);
+}

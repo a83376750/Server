@@ -8,7 +8,8 @@ void StartServer()
 	Server *server = Server::Instance();
 	server->StartServer();
 	std::shared_ptr<ThreadPoor> poor = std::make_shared<ThreadPoor>();
-	poor->pushTask(new RecvSendTask(server));
+	poor->pushTask(new RecvTask(server));
+	poor->pushTask(new JsonParse(server));
 	while (1)
 	{
 		std::cout << "服务器线程已启动" << std::endl;
@@ -25,7 +26,7 @@ void CloseServer()
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "服务器关闭异常:" << e.what() << std::endl;
 	}
 }
 
@@ -150,7 +151,7 @@ void DisplayMenu()
 	}
 }
 
-int main()
+int main(int argc, char * argv[])
 {
 	DisplayMenu();
 	

@@ -14,6 +14,7 @@
 #endif
 
 
+
 Server *Server::m_server = nullptr;
 
 Server::Server()
@@ -22,6 +23,13 @@ Server::Server()
 
 Server::~Server()
 {
+#ifdef BASESOCKET
+	closesocket(m_socket);
+	WSACleanup();
+#else
+	zmq_close(m_socket);
+	zmq_ctx_term(m_ctx);
+#endif
 }
 
 
@@ -92,8 +100,7 @@ unsigned int Server::StartServer()
 	m_ctx = zmq_ctx_new();
 	assert(m_ctx);
 
-	//ZMQ_STREAM 流模式socket, 试采用ZMQ_ROUTER
-	m_socket = zmq_socket(m_ctx, ZMQ_XREP);
+	m_socket = zmq_socket(m_ctx, ZMQ_ROUTER);
 	assert(m_socket);
 
 	// 	int64_t affinity = 1;
@@ -121,7 +128,7 @@ unsigned int Server::StartServer()
 	return Succee_ERR;
 }
 
-
+//客户端发送上来的包会有两个,第一个是空包,第二个才是数据
 void Server::RecvBuffer(void *buffer)
 {
 	int nBytes = zmq_recv(m_socket, buffer, NETBUFFER, 0);
@@ -135,42 +142,4 @@ void Server::WriteBuffer(void *buffer, int len)
 	int nBytes = zmq_send(m_socket, buffer, len, 0);
 	std::cout << (char*)buffer << std::endl;
 	std::cout << "字节数:" << nBytes << std::endl;
-}
-
-void SaveBuffer(void *lpParameter)
-{
-#ifdef BASESOCKET
-	SOCKET CientSocket = (SOCKET)lpParameter;
-	int Ret, Err = 0;
-	char RecvBuffer[1024];
-
-	using namespace std;
-	while (true)
-	{
-		memset(RecvBuffer, 0, sizeof(RecvBuffer));
-		Ret = recv(CientSocket, RecvBuffer, sizeof(RecvBuffer), 0);
-		if (Ret == SOCKET_ERROR)
-		{
-			Err = WSAGetLastError();
-			if (Err == WSAEWOULDBLOCK)
-			{
-				continue;
-			}
-			else if (Err == WSAETIMEDOUT)
-			{
-				printf("超时!!!!!");
-				continue;
-			}
-			else
-			{
-				continue;
-			}
-		}
-
-		cout << "接收到客户信息为:" << RecvBuffer << endl;
-	}
-	closesocket(CientSocket);
-#else
-
-#endif
 }

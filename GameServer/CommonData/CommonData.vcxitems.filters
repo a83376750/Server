@@ -16,6 +16,9 @@
     <Filter Include="Heartbeat Package">
       <UniqueIdentifier>{038b96ef-5621-46cb-b06d-224df72d06ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZeroMq">
+      <UniqueIdentifier>{a606f3c6-a2a6-4fcf-83ad-442f714a0da6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="log">
       <UniqueIdentifier>{83cd2a44-ebab-4f71-a6e7-f551e374d94c}</UniqueIdentifier>
     </Filter>
@@ -152,6 +155,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PerforFunction.h">
       <Filter>Performance Function</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\include\zmq.h">
+      <Filter>ZeroMq</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\include\zmq_utils.h">
+      <Filter>ZeroMq</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

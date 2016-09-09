@@ -16,6 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\gason\gason.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\include\zmq.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\include\zmq_utils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\allocators.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\document.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\ThirdLibrary\rapidjson\encodedstream.h" />

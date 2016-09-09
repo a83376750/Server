@@ -13,6 +13,8 @@ class TaskManager
 public:
 	TaskManager();
 	~TaskManager();
+public:
+
 
 	void pushTask(ServerTask *task);
 	ServerTask* popTask();
@@ -34,6 +36,13 @@ public:
 	virtual ~ServerTask();
 
 	virtual void StartTask() = 0;
+
+	enum PageType
+	{
+		ERROR,
+		TASK,
+		HEAD,
+	};
 };
 
 /************************************************************************/
@@ -53,13 +62,27 @@ private:
 /************************************************************************/
 /* RecvSendTask                                                           */
 /************************************************************************/
-class RecvSendTask : public ServerTask
+class RecvTask : public ServerTask
 {
 public:
-	RecvSendTask(Server *ptrServer);
-	virtual ~RecvSendTask();
+	RecvTask(Server *ptrServer);
+	virtual ~RecvTask();
 	virtual void StartTask();
 
+private:
+	Server *m_pServer;
+};
+
+
+/************************************************************************/
+/* JsonParse                                                            */
+/************************************************************************/
+class JsonParse : public ServerTask
+{
+public:
+	JsonParse(Server *ptrServer);
+	virtual ~JsonParse();
+	virtual void StartTask() override;
 private:
 	Server *m_pServer;
 };
