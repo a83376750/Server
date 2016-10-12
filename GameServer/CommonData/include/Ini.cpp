@@ -13,17 +13,33 @@ CIni::~CIni()
 
 bool CIni::WriteString(const char *sAppName, const char *sKey, const char *sValue)
 {
+#ifdef WIN32
 	return !!WritePrivateProfileString(sAppName, sKey, sValue, m_sPath.c_str());
+#else
+	return true;
+#endif
 }
 
 unsigned long CIni::ReadString(const char *sAppName, const char *sKey, char *sOutput, const char *sDefault)
 {
+#ifdef WIN32
 	return GetPrivateProfileString(sAppName, sKey, sDefault, sOutput, 50, m_sPath.c_str());
+#else
+	return PackagingFunction(sAppName, sKey, sDefault, sOutput, 50, m_sPath.c_str());
+#endif
 }
 
 long CIni::ReadInt(const char *sAppName, const char *sKey, long nDefault)
 {
+#ifdef WIN32
 	return GetPrivateProfileInt(sAppName, sKey, nDefault, m_sPath.c_str());
+#else
+	char Return_Value[512];
+	char sDefault[20];
+	sprintf_s(sDefault, "%d", sDefault);
+	PackagingFunction(sAppName, sKey, sDefault, Return_Value, sizeof(Return_Value), m_sPath.c_str());
+	return atoi(Return_Value);
+#endif
 }
 
 void CIni::CheckPath()
@@ -39,27 +55,8 @@ void CIni::SetPath(const char *sPath)
 	m_sPath = sPath;
 }
 
-#ifdef WIN32
 
-#else
-bool CIni::WritePrivateProfileString(const char *sAppName, const char *sKey, const char *sValue, const char *sDefault)
-{
-	return true;
-}
-
-unsigned long CIni::GetPrivateProfileString(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
-	char *lpReturnedString, unsigned long nSize, const char *lpFileName)
-{
-	return PackagingFunction(lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
-}
-
-long CIni::GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName)
-{
-	char Return_Value[512];
-	PackagingFunction(lpAppName, lpKeyName, "", Return_Value, sizeof(Return_Value), lpFileName);
-	return atoi(Return_Value);
-}
-
+#ifndef WIN32
 long CIni::PackagingFunction(const char *lpAppName, const char *lpKeyName, const char *lpDefault, char *lpReturnedString, unsigned long nSize, const char *lpFileName)
 {
 	std::fstream fs;
@@ -143,5 +140,4 @@ long CIni::PackagingFunction(const char *lpAppName, const char *lpKeyName, const
 		return -1;
 	return strlen(lpDefault);
 }
-
 #endif

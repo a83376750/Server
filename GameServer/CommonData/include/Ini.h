@@ -28,15 +28,8 @@ GetPrivateProfileInt
 		//Ä¬ÈÏµØÖ· ./Sand.ini
 		std::string m_sPath;
 		
-	private:	
+	public:	
 #ifndef WIN32
-		bool WritePrivateProfileString(const char *sAppName, const char *sKey, const char *sValue, const char *sDefault);
-
-		unsigned long GetPrivateProfileString(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
-			char *lpReturnedString, unsigned long nSize, const char *lpFileName);
-
-		long GetPrivateProfileInt(const char *lpAppName, const char *lpKeyName, int nDefault, const char *lpFileName);
-
 		long PackagingFunction(const char *lpAppName, const char *lpKeyName, const char *lpDefault,
 			char *lpReturnedString, unsigned long nSize, const char *lpFileName);
 #endif
