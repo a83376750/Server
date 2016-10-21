@@ -2,8 +2,10 @@
 #include "Ini.h"
 #include "PerforFunction.h"
 #include <iostream>
+#include <thread>
 
-#ifdef _WIN32
+//跨平台宏
+#ifdef WIN32
 #include <direct.h>
 #include <io.h>
 #define MKDIR(x) _mkdir(x)
@@ -13,7 +15,7 @@
 #define MKDIR(x) mkdir(x, S_IRWXU)
 #endif
 
-#ifdef _WIN32
+#ifdef WIN32
 #include <windows.h>
 #else
 #endif
@@ -62,10 +64,18 @@ void CLog::Write(const char *str)
 	GetTmTimer(&sys);
 	os << "\n" << "[" << sys.tm_year << "/" << sys.tm_mon << "/" << sys.tm_mday
 		<< " " << sys.tm_hour << ":" << sys.tm_min << ":" << sys.tm_sec << "]"
-		<< " - " << str << std::endl;
+		<< " - " << "{线程ID:" << std::this_thread::get_id() << "}" << str << std::endl;
 	os.close();
 }
 
+
+void CLog::Write(const char *str, size_t len)
+{
+	char *sLog = new char[len + 1];
+	memcpy(sLog, str, len);
+	sLog[strlen(sLog)] = '\0';
+	CLog::Write(sLog);
+}
 
 void CLog::WriteUc(void *str, int len)
 {
@@ -78,7 +88,9 @@ void CLog::WriteUc(void *str, int len)
 	tm sys;
 	GetTmTimer(&sys);
 	os << "\n" << "[" << sys.tm_year << "/" << sys.tm_mon << "/" << sys.tm_mday
-		<< " " << sys.tm_hour << ":" << sys.tm_min << ":" << sys.tm_sec << "]";
+		<< " " << sys.tm_hour << ":" << sys.tm_min << ":" << sys.tm_sec << "]" << "{线程ID:" << std::this_thread::get_id() << "}"
+		<< "输出buffer:";
+
 	char cStr[6];
 	for (int i = 0; i < len; ++i)
 	{

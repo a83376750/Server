@@ -36,7 +36,7 @@ long CIni::ReadInt(const char *sAppName, const char *sKey, long nDefault)
 #else
 	char Return_Value[512];
 	char sDefault[20];
-	sprintf_s(sDefault, "%d", sDefault);
+	sprintf_s(sDefault, "%d", nDefault);
 	PackagingFunction(sAppName, sKey, sDefault, Return_Value, sizeof(Return_Value), m_sPath.c_str());
 	return atoi(Return_Value);
 #endif

@@ -246,13 +246,13 @@ bool BufferStream::IsJsonString(void *buffer)
    	else
    	{
    		printf("Input JSON is invalid.\n");
-   		rapidjson::StringBuffer sb;
-   		validator.GetInvalidSchemaPointer().StringifyUriFragment(sb);
-   		fprintf(stderr, "Invalid schema: %s\n", sb.GetString());
+   		rapidjson::StringBuffer strbuf;
+   		validator.GetInvalidSchemaPointer().StringifyUriFragment(strbuf);
+   		fprintf(stderr, "Invalid schema: %s\n", strbuf.GetString());
    		fprintf(stderr, "Invalid keyword: %s\n", validator.GetInvalidSchemaKeyword());
-   		sb.Clear();
-   		validator.GetInvalidDocumentPointer().StringifyUriFragment(sb);
-   		fprintf(stderr, "Invalid document: %s\n", sb.GetString());
+   		strbuf.Clear();
+   		validator.GetInvalidDocumentPointer().StringifyUriFragment(strbuf);
+   		fprintf(stderr, "Invalid document: %s\n", strbuf.GetString());
    		return false;
    	}
 
